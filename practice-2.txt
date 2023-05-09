@@ -1,0 +1,58 @@
+																Access Modifiers
+DESCRIPTION
+This section will guide you to:
+● Create a Java project in your IDE
+● Write a program in Java to verify the working of access modifiers
+
+
+	package accessmodifiers;
+	public class accessModifier 
+	{
+		public static void main(String[] args) 
+		{
+		// TODO Auto-generated method stub
+		PublicModifier ob = new PublicModifier();
+		ob.display();
+		System.out.println(ob.x);
+		DefModifier ob1 = new DefModifier();
+		ob1.display1();
+		ProModifier ob2 = new ProModifier();
+		ob2.display2();
+		}
+	}
+	class PublicModifier
+	{
+		int x = 100;
+		void display() 
+		{
+			System.out.println("Public Modifier");
+		}
+	}
+	class DefModifier
+	{
+		void display1()
+		{
+			System.out.println("Default Modifier");
+		}
+	}
+	class ProModifier
+	{
+		void display2() 
+		{
+			System.out.println("Protected Modifier");
+		}
+	}
+	class PriModifier //Doesn’t execute
+	{
+		private void show()
+		{
+			System.out.println("Private Modifier");
+		}
+	}
+	
+	
+OUTPUT
+Public Modifier
+100
+Default Modifier
+Protected Modifier

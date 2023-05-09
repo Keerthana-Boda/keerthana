@@ -1,0 +1,36 @@
+												Type Casting
+DESCRIPTION
+This section will guide you to:
+● Create a Java project in your IDE
+● Write a program in Java to perform implicit and explicit type casting
+
+
+	package typecasting;
+	public class casting
+	{
+		public static void main(String[] args) 
+		{
+	// TODO Auto-generated method stub
+			char c = 'F';
+			System.out.println("Value of c : " + c);
+			int v = c;
+			System.out.println("Implicit TypeCasting");
+			System.out.println("Value of v after implicit typecasting : " + v);
+			int x = 66;
+			System.out.println("Value of x : " + x);
+			System.out.println("Explicit TypeCasting");
+			char f = (char)x;
+			System.out.println("Value of f after explicit typecasting : " + f);
+		}
+	}
+	
+	
+	
+Output
+
+Value of c : F
+Implicit TypeCasting
+Value of v after implicit typecasting : 70
+Value of x : 66
+Explicit TypeCasting
+Value of f after explicit typecasting : B

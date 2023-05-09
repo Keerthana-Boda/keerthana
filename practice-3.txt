@@ -1,0 +1,42 @@
+													Methods 
+DESCRIPTION
+This section will guide you to:
+• Create a Java project in your IDE
+• Write a program in Java to create methods
+
+	
+	package callingmethod;
+
+	public class callMethod 
+	{
+		void multiply(int x, int y) 
+		{
+			int result;
+			result = x * y;
+			System.out.println("Result : " + result);
+		
+		}
+		static int add(int x, int y) 
+		{
+			return x+y;
+		}
+		static int add(int x, int y, int z) 
+		{
+			return x+y+z;
+		}
+		public static void main(String args[]) 
+		{
+			callMethod obj = new callMethod();
+			obj.multiply(7,8);
+	
+			System.out.println(obj.add(4, 8)); // method overloading
+			System.out.println(obj.add(6,7,8));// method overloading
+	
+		}
+	}
+	
+OUTPUT:	
+Result : 56
+12
+21
+
