@@ -1,0 +1,46 @@
+						Map 
+DESCRIPTION
+This section will guide you to:
+• Create a Java project in your IDE
+• Write a program in Java to create maps
+
+
+	package mapproject;
+	import java.util.*;
+	public class mapProgram 
+	{
+		public static void main(String[] args) 
+		{
+			// TODO Auto-generated method stub
+			System.out.println("Hashmap");
+			HashMap<Integer,String> val = new HashMap<Integer,String>();
+			val.put(23, "Balu");
+			val.put(22, "Maha");
+			System.out.println("Elements in HashMap are: ");
+			for(Map.Entry m:val.entrySet()) 
+			{
+				System.out.println(m.getKey()+ " " + m.getValue());
+			}
+			System.out.println("HashTable");
+			Hashtable<Integer,String> hm = new Hashtable<Integer,String>();
+			hm.put(22, "Ajit");
+			hm.put(24, "Kajol");
+			hm.put(25, "sharukh");
+			for(Map.Entry n:hm.entrySet()) 
+			{
+				System.out.println(n.getKey()+ " " + n.getValue());
+			}
+		}
+	}
+	
+	
+OUTPUT
+
+Hashmap
+Elements in HashMap are: 
+22 Maha
+23 Balu
+HashTable
+25 sharukh
+24 Kajol
+22 Ajit

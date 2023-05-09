@@ -1,0 +1,32 @@
+								Strings 
+DESCRIPTION
+This section will guide you to:
+• Create a Java project in your IDE
+• Write a Java program to create strings and convert them into StringBuffer and StringBuilder
+
+
+	package stringbuffer;
+	public class stringBuffer 
+	{
+		public static void main(String[] args) 
+		{
+			// TODO Auto-generated method stub
+			System.out.println("String to StringBuffer");
+			String str = "Hello";
+			StringBuffer sb = new StringBuffer(str);
+			sb.append(" Nice to meet you ");
+			System.out.println(sb);
+			System.out.println("String to StringBuilder");
+			StringBuilder s = new StringBuilder("Welcome");
+			s.append(" to Java");
+			System.out.println(s);
+		}
+	}
+	
+	
+OUTPUT
+
+String to StringBuffer
+Hello Nice to meet you 
+String to StringBuilder
+Welcome to Java

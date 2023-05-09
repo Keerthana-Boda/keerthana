@@ -1,0 +1,36 @@
+							Collections 
+DESCRIPTION
+This section will guide you to:
+• Create a Java project in your IDE
+• Write a program in Java to create collections
+
+
+	package collection;
+	import java.util.*;
+	public class collectionProgram 
+	{
+		public static void main(String[] args) 
+		{
+			// TODO Auto-generated method stub
+			System.out.println("ArrayList");
+			ArrayList<Integer> num = new ArrayList<Integer>();
+			num.add(1);
+			num.add(12);
+			num.add(30);
+			System.out.println(num);
+			System.out.println("LinkedList");
+			LinkedList<String> fruits = new LinkedList<String>();
+			fruits.add("Mango");
+			fruits.add("Banana");
+			fruits.add("Grapes");
+			System.out.println(fruits);
+		}
+	}
+	
+	
+OUTPUT
+
+ArrayList
+[1, 12, 30]
+LinkedList
+[Mango, Banana, Grapes]

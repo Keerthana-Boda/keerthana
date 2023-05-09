@@ -1,0 +1,42 @@
+								Constructors 
+DESCRIPTION
+This section will guide you to:
+• Create a Java project in your IDE
+• Write a program in Java to create constructors
+
+
+	package addconstuctor;
+	public class add 
+	{
+		add()
+		{
+			System.out.println("Default Constructor");
+		}
+		int a;
+		int b;
+		add(int x, int y)
+		{
+			a = x;
+			b = y;
+		}
+		void display() 
+		{
+			int result = a+b;
+			System.out.println("Parameterized Constructor");
+			System.out.println(result);
+		}
+		public static void main(String[] args) 
+		{
+			// TODO Auto-generated method stub
+			add obj = new add();
+			add obj1 = new add(10,38);
+			obj1.display();
+		}
+	}
+	
+	
+OUTPUT
+
+Default Constructor
+Parameterized Constructor
+48

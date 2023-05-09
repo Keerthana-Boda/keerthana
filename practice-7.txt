@@ -1,0 +1,35 @@
+					Inner Classes
+DESCRIPTION
+This section will guide you to:
+• Create a Java project in your IDE
+• Write a Java program to create inner classes
+
+
+	package innerclasses;
+	public class innerClass 
+	{
+		public static void main(String[] args) 
+		{
+			// TODO Auto-generated method stub
+			student st = new student();
+			student.stuDetails s = st.new stuDetails();
+			s.display(45, "Liz");
+		}
+	}
+	class student 
+	{
+		class stuDetails 
+		{
+			void display(int x, String y) 
+			{
+			System.out.println("Student ID : " + x);
+			System.out.println("Student Name : " + y);
+			}
+		}
+	}
+	
+	
+OUTPUT
+
+Student ID : 45
+Student Name : Liz
