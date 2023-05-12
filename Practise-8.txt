@@ -1,0 +1,142 @@
+					Class, Objects, and Pillars of OOPs
+DESCRIPTION
+//Writing a program in Java to demonstrate the uses of classes and objects
+//Writing a program in Java to demonstrate the uses of inheritance
+//Inheritance
+
+package oopconcepts;
+public class Inheritance extends A
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		A a = new A(); // object
+		a.display();
+	}
+
+}
+class A // Class 
+{
+	void display() 
+	{
+		System.out.println("Hello");
+	}
+}
+
+OUTPUT:
+
+Hello
+
+
+//Writing a program in Java to demonstrate the uses of encapsulation
+
+//Encapsulation
+
+public class Encapsulation 
+{
+	private String name;
+	private int age;
+	public String getName() 
+	{
+		return name;
+	}
+	public int getAge() 
+	{
+		return age;
+	}
+	public void setAge(int age1) 
+	{
+		age = age1;
+	}
+	public void setName(String name1) 
+	{
+		name = name1;
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		Encapsulation e = new Encapsulation();
+		e.setAge(22);
+		e.setName("Ankith");
+		System.out.println("Name : " +e.getName());
+		System.out.println("Age : " + e.getAge());
+	}
+}
+
+OUTPUT:
+
+Name : Ankith
+Age : 22
+
+
+//Writing a program in Java to demonstrate the uses of abstraction
+
+//Abstraction
+
+package oopconcepts;
+public class Abstraction extends Bicycle
+{
+	void run() 
+	{
+		System.out.println("Running Safely");
+	}
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		Bicycle a = new Abstraction();
+		a.run();
+	}
+}
+
+abstract class Bicycle 
+{
+	abstract void run();
+}
+
+OUTPUT:
+
+Running Safely
+
+//Writing a program in Java to demonstrate the uses of polymorphism
+
+//Polymorphism
+
+package oopconcepts;
+public class Polymorphism 
+{
+	public int add(int a, int b) 
+	{
+		return a+b;
+	}
+	public int add(int a, int b, int c) 
+	{
+		return a+b+c;
+	}
+	public double add(double a, double b) 
+	{
+		return a+b;
+	}
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		Polymorphism p =new Polymorphism();
+		System.out.println("Add : "+p.add(1, 2));
+		System.out.println("Add : "+p.add(1,2,2));
+		System.out.println("Add : "+p.add(2.22,3.33));
+	}
+}
+
+OUTPUT:
+
+Add : 3
+Add : 5
+Add : 5.550000000000001
+
+
+
+
+
+

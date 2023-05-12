@@ -1,0 +1,56 @@
+							Keywords and Custom Exceptions ..
+
+DESCRIPTION
+Writing a program in Java to demonstrate the throw keyword,throws keyword finally keyword and custom exceptions
+
+package customexception;
+
+public class CustomException 
+{		
+	static void validate(int age) throws InvalidAgeException 
+	{
+		if(age < 18) 
+		{
+			throw new InvalidAgeException("age is not valid to vote");
+		}
+		else 
+		{
+			System.out.println("Welcome to vote");
+		}
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		try 
+		{
+			validate(16);	
+		}
+		catch(Exception e) 
+		{
+			System.out.println("Caught the exception");
+			System.out.println("Exception Occured"+ e);
+		}
+		finally 
+		{
+			System.out.println("Try-Catch is finished");
+		}
+	}
+}
+class InvalidAgeException extends Exception 
+{
+	public InvalidAgeException(String s) 
+	{
+		super(s);
+	}
+}
+
+
+OUTPUT:
+
+Caught the exception
+Exception Occuredcustomexception.InvalidAgeException: age is not valid to vote
+Try-Catch is finished
+
+

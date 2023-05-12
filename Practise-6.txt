@@ -1,0 +1,26 @@
+								Implement the Exception Handlers
+DESCRIPTION
+Writing a program in Java to demonstrate exception handling
+
+
+package exceptionhandling;
+public class ExceptionHandling 
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		try 
+		{
+			int x = 100/0;
+			System.out.println("Value of x: ");
+		} 
+		catch(ArithmeticException e) 
+		{
+			System.out.println("Exception occured at " + e);
+		}
+	}
+}
+
+OUTPUT:
+
+Exception occured at java.lang.ArithmeticException: / by zero

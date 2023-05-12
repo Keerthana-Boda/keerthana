@@ -1,0 +1,41 @@
+								The Diamond Problem
+DESCRIPTION
+● Write a program in Java to resolve the diamond problem using OOPs’ concepts
+
+package diamondproblem;
+public class DiamondProblem implements i1, i2 
+{
+	public void display() 
+	{
+		i1.super.display();
+		i2.super.display();
+	}
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		DiamondProblem d1 = new DiamondProblem();
+		d1.display();
+	}
+}
+
+interface i1 
+{
+	public default void display() 
+	{
+		System.out.println("Hi");
+	}
+}
+interface i2 
+{
+	public default void display() 
+	{
+		System.out.println("Hello");
+	}
+}
+
+
+
+OUTPUT:
+
+Hi
+Hello

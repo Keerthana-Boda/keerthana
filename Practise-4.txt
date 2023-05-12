@@ -1,0 +1,26 @@
+										Try-catch Statements
+DESCRIPTION
+Write a program in Java to demonstrate try and catch
+
+
+package tryandcatch;
+public class TryAndCatch {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		try {
+			int arr[] = {1, 2, 3};
+			System.out.println("Array elements : " + arr[10]);
+		}
+		catch(Exception e) {
+			System.out.println("Something went wrong");
+		}
+
+	}
+
+}
+
+OUTPUT:
+
+Something went wrong

@@ -1,0 +1,61 @@
+						Programming the Threads Creation
+DESCRIPTION
+This section will guide you to:
+Write a program in Java to create a thread by extending the ‘Thread’ class and by implementing the “Runnable” interface
+
+//By extending 'Thread' class 
+
+package createthread;
+
+public class ThreadByExtends extends Thread {
+	
+	public void run() 
+	{
+		System.out.println("Thread by extending Thread class");
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		ThreadByExtends x = new ThreadByExtends();
+		x.run();
+		
+		
+
+	}
+
+}
+
+OUTPUT:
+
+Thread by extending Thread class
+
+
+//By implementing 'Runnable' interface
+
+package createthread;
+public class MyThread implements Runnable
+{
+	
+	public void run() 
+	{
+		System.out.println("Thread by implementing Runnable interface");
+	}
+
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		MyThread t = new MyThread();
+		t.run();
+
+	}
+
+}
+
+
+OUTPUT:
+
+Thread by implementing Runnable interface
+

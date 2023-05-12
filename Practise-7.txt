@@ -1,0 +1,99 @@
+						File Handling Mechanisms..
+DESCRIPTION
+Writing a program in Java to create a file
+
+package fileoperations;
+import java.io.*;
+
+public class CreateFile {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		try {
+			File f = new File("NewFile.txt");
+			if (f.createNewFile()) {
+		        System.out.println("File created: " + f.getName());
+		      } else {
+		        System.out.println("File already exists.");
+		      }
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		}
+		
+	}
+
+}
+
+OUTPUT:
+
+File already exists.
+
+
+Writing a program in Java to read a file
+
+package fileoperations;
+import java.io.*;
+import java.util.*;
+public class ReadFile
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		try 
+		{
+			File f = new File("Textfile.txt");
+		    Scanner myReader = new Scanner(f);
+		    while (myReader.hasNextLine()) 
+			{
+		    	String data = myReader.nextLine();
+		        System.out.println(data);
+		    }
+		    myReader.close();
+		}
+		catch(FileNotFoundException e) 
+		{
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		}
+	}
+}
+
+OUTPUT:
+
+An error occurred.
+java.io.FileNotFoundException: Textfile.txt (The system cannot find the file specified)
+	at java.base/java.io.FileInputStream.open0(Native Method)
+	at java.base/java.io.FileInputStream.open(FileInputStream.java:216)
+	at java.base/java.io.FileInputStream.<init>(FileInputStream.java:157)
+	at java.base/java.util.Scanner.<init>(Scanner.java:639)
+	at FileOperations/fileoperations.ReadFile.main(ReadFile.java:11)
+
+
+
+Writing a program in Java to delete a file
+
+package fileoperations;
+import java.io.*;
+public class DeleteFile 
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		File f = new File("filename.txt"); 
+	    if (f.delete()) 
+		{ 
+	      System.out.println("Deleted the file: " + f.getName());
+	    } 
+		else 
+		{
+	      System.out.println("Failed to delete the file.");
+	    } 
+	}
+}
+
+OUTPUT:
+
+Failed to delete the file.
+
