@@ -1,0 +1,101 @@
+									File Handling
+									
+DESCRIPTION
+Project Objective: As a developer, write a program to read, write, and append to a file.
+
+// READ A File
+
+package filehandling;
+import java.io.*;
+import java.util.*;
+
+public class ReadFile 
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		try 
+		{
+            File Obj = new File("myfile.txt");
+            
+            Scanner Reader = new Scanner(Obj);
+            while (Reader.hasNextLine()) 
+			{
+                String data = Reader.nextLine();
+				System.out.println("Reading Data");
+                System.out.println(data);
+            }
+            Reader.close();
+        }
+        catch (FileNotFoundException e) 
+		{
+            System.out.println("An error has occurred.");
+            e.printStackTrace();
+        }
+	        
+	}
+
+}
+
+
+// WRITE A File
+
+package filehandling;
+import java.io.*;
+
+public class WriteFile 
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		
+		try 
+		{
+            FileWriter Writer = new FileWriter("myfile.txt");
+            Writer.write("Files in Java are seriously good!!");
+            Writer.close();
+			System.out.println("Writing a file");
+            System.out.println("Successfully written.");
+        }
+        catch (IOException e) 
+		{
+            System.out.println("An error has occurred.");
+            e.printStackTrace();
+        }
+
+	}
+
+}
+
+
+// APPEND 
+
+package filehandling;
+import java.io.*;
+public class AppendFile 
+{
+	public static void main(String[] args)
+	{
+		// TODO Auto-generated method stub
+		File f = new File("myfile.txt");
+        String text = "Added text";
+        try 
+		{
+        	FileWriter fw = new FileWriter(f.getName(),true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(text);
+            bw.close();
+			System.out.println("Appending text in file");
+            System.out.println("Successfully Done");
+           
+        }
+        catch(IOException e) 
+		{
+        	System.out.println("An error has occured");
+        }
+
+	}
+
+}
+
