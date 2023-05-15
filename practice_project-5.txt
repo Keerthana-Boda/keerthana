@@ -1,0 +1,39 @@
+								Singly Linked List
+DESCRIPTION
+
+This section will guide you to: 
+● Write a program in Java to delete the first occurrence of a key in a singly linked list 
+● Use Eclipse (the popular text editor for Java programs) 
+● Push code to Git
+
+
+package arrays;
+import java.util.*;
+
+public class DeleteKey {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		LinkedList<String> list = new LinkedList<String>();
+        list.addLast("apple");
+        list.addLast("banana");
+        list.addLast("cat");
+        
+ 
+        System.out.print("List before removing the first Occurrence of one" );
+        System.out.println(list);
+        list.removeFirstOccurrence("apple");
+ 
+        System.out.print("List after removing the first Occurrence of one");
+        System.out.println(list);
+
+	}
+
+}
+
+
+OUTPUT:
+
+List before removing the first Occurrence of one[apple, banana, cat]
+List after removing the first Occurrence of one[banana, cat]
