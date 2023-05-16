@@ -1,0 +1,31 @@
+							Range Queries
+DESCRIPTION
+
+This section will guide you to: 
+
+● Write a program in Java to find the sum of n number of elements in the range of L and R where 0 <= L <= R <= n-1
+● Use Eclipse (the popular text editor for Java programs) 
+● Push code to Git
+
+
+package arrays;
+
+public class SumOfElements 
+{
+	public static void main(String[] args) 
+	{
+		// TODO Auto-generated method stub
+		int l = 2, r = 5;
+		int arr[] = {1,2,3,4,5,6,7};
+		int sum = 0;
+		for(int i = l;i<=r;i++) 
+		{
+			sum = sum+arr[i];
+		}
+		System.out.println("Sum of elements : "+ sum);
+	}
+}
+
+OUTPUT:
+
+Sum of elements : 18

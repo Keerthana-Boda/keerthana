@@ -1,0 +1,30 @@
+							Queue
+DESCRIPTION
+
+This section will guide you to: 
+
+● Write a program in Java to insert and remove elements in a queue
+● Use Eclipse (the popular text editor for Java programs) 
+● Push code to Git
+
+package queue;
+import java.util.*;
+public class QueueOperation 
+{
+	public static void main(String[] args) 
+	{
+		Queue<Integer> q = new LinkedList<>();
+		q.add(10);
+		q.add(20);
+		q.add(30);
+		System.out.println("Queue is : "+q);
+		q.remove();
+		System.out.println("Queue after removing : "+q);
+		
+	}
+}
+
+OUTPUT:
+
+Queue is : [10, 20, 30]
+Queue after removing : [20, 30]

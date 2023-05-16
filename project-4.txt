@@ -1,0 +1,50 @@
+							Longest Increasing Subsequence
+DESCRIPTION
+
+Project Objective:
+As a developer, write a program to find the longest increasing subsequence.
+
+Background of the problem statement:
+As a developer, write a Java code to find the longest increasing subsequence from a list of random numbers.
+
+
+package lists;
+
+public class LongestSequence {
+	static int ls(int a[], int n)
+	{
+		int ls[] = new int[n];
+		int i,j,max=0;
+		for(i = 0; i < n; i++)
+		{
+			ls[i] = 1;
+		}
+		for(i = 1; i < n; i++)
+		{
+			for(j = 0;j < i; j++)
+			{
+				if(a[i] > a[j] && ls[i] < ls[j] + 1)
+					ls[i] = ls[j] + 1;
+			}
+		}
+		for(i = 0; i < n; i++)
+		{
+			if(max < ls[i])
+				max = ls[i];
+		}
+		return max;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int arr[] = {4,5,2,7,87,43,76,21,60};
+		int n = 9;
+		System.out.println(ls(arr,n));
+
+	}
+
+}
+
+OUTPUT
+
+5
