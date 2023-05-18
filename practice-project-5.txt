@@ -1,0 +1,48 @@
+						Bubble Sort
+DESCRIPTION
+This section will guide you to: 
+
+● Create a Java class in your IDE 
+● Implement the bubble sort algorithm in a predefined array 
+● Check if the element is available in the predefined array
+
+package sorting;
+import java.util.Arrays;
+
+public class BubbleSort 
+{
+	public static void main(String[] args) 
+	{
+		
+		int[] arr = { 9, 6, 33, 1, 2, 46, 5 };
+
+		System.out.println("GIVEN ARRAY : " + Arrays.toString(arr));
+
+		bubbleSort(arr);
+
+		System.out.println("SORTED ARRAY : " + Arrays.toString(arr));
+
+	}
+
+	private static void bubbleSort(int[] arr) 
+	{
+		for (int i = arr.length - 1; i > 0; i--) 
+		{
+			for (int j = 0; j < i; j++) 
+			{	
+				if (arr[j] > arr[j + 1]) 
+				{
+					int temp = arr[j] ;
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+	}
+}
+
+
+OUTPUT:
+
+GIVEN ARRAY : [9, 6, 33, 1, 2, 46, 5]
+SORTED ARRAY : [1, 2, 5, 6, 9, 33, 46]

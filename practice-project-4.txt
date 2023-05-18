@@ -1,0 +1,52 @@
+						Selection Sort
+DESCRIPTION
+This section will guide you to: 
+
+● Create a Java class in your IDE 
+● Implement the selection sort algorithm in a predefined array 
+● Check if the element is available in the predefined array
+
+ 
+package sorting;
+import java.util.Arrays;
+
+public class SelectionSort 
+{
+	public static void main(String[] args) 
+	{
+		int[] arr = {9,6,3,1,2,4,5};
+		 System.out.println("GIVEN ARRAY : " + Arrays.toString(arr));
+		 selectionSort(arr);
+		 System.out.println("SORTED ARRAY : " + Arrays.toString(arr));	 
+	}
+
+	public static void selectionSort(int[] array) 
+	{
+		for (int i = 0; i < array.length; i++) 
+		{
+			int minIndex = i;
+
+			for (int j = i + 1; j < array.length; j++) 
+			{
+
+				if (array[j] < array[minIndex]) 
+				{
+					minIndex = j;
+				}
+
+			}
+			if (i != minIndex) 
+			{
+				int temp = array[i];
+				array[i] = array[minIndex];
+				array[minIndex] = temp;
+			}
+		}
+	}
+}
+
+
+OUTPUT:
+
+GIVEN ARRAY : [9, 6, 3, 1, 2, 4, 5]
+SORTED ARRAY : [1, 2, 3, 4, 5, 6, 9]

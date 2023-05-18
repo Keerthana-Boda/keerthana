@@ -1,0 +1,51 @@
+					Insertion Sort
+DESCRIPTION
+This section will guide you to: 
+
+● Create a Java class in your IDE
+● Implement the insertion sort algorithm in a predefined array
+● Check if the element is available in the predefined array
+
+package sorting;
+import java.util.Arrays;
+
+public class InsertionSort 
+{
+
+	public static void main(String[] args) 
+	{		
+		int[] arr = { 9, 6, 77, 1, 2, 46, 5 };
+
+		System.out.println("GIVEN ARRAY : " + Arrays.toString(arr));
+
+		insertionSort(arr);
+
+		System.out.println("SORTED ARRAY : " + Arrays.toString(arr));
+
+	}
+
+	private static void insertionSort(int[] arr) 
+	{
+		for (int i = 1; i < arr.length; i++) 
+		{
+			int temp = arr[i];
+			int j = i - 1;
+
+			while (j>-1 && temp < arr[j]) 
+			{
+				// swap 
+				arr[j+1]=arr[j];
+				arr[j] = temp;
+				j--;
+			}
+		}
+	}
+}
+
+
+OUTPUT:
+
+GIVEN ARRAY : [9, 6, 77, 1, 2, 46, 5]
+SORTED ARRAY : [1, 2, 5, 6, 9, 46, 77]
+
+

@@ -1,0 +1,47 @@
+								Fix Bugs of the Application
+DESCRIPTION
+
+Project objective:
+As a developer, fix the bugs in the application using the appropriate algorithmic techniques.
+
+package searching;
+
+public class FixBugInBinarySearch 
+{
+	
+	//Below is the iterative Binary Search that will not fall in overflow bug.
+	
+	public static int binarySearch(int arr[], int x) 
+	{ 
+		int l = 0, r = arr.length - 1; 
+		while (l <= r) { 
+			int m = l + (r - l) / 2; 
+			if (arr[m] == x) 
+				return m; 
+			if (arr[m] < x) 
+				l = m + 1; 
+			else
+				r = m - 1; 
+		} 
+		return -1; 
+	} 
+
+	public static void main(String[] args) 
+	{	
+		int arr[] = { 2, 3, 4, 10, 40 }; 
+		int n = arr.length; 
+		int x = 10; 
+		int result = binarySearch(arr, x); 
+		if (result == -1) 
+			System.out.println(x+" not present in array."); 
+		else
+			System.out.println(x+" present at " + "index " + result);
+	}
+
+}
+
+
+OUTPUT:
+
+10 present at index 3
+
