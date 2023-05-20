@@ -1,0 +1,348 @@
+							Camera Rental Application
+Course-end Project 1
+
+DESCRIPTION
+Build a peer-to-peer camera rental application
+
+Scenario:
+You have been hired by a company called rentmycam.io as a Full Stack Developer with the aim to create a prototype of a camera rental application.
+
+package camerarental;
+import java.util.Scanner;
+import java.util.*;
+import java.util.Arrays;
+
+
+public class CameraRental 
+{
+	
+
+	List<Camera> cameraList = new ArrayList<>();
+	private Wallet wallet;
+	public void display()
+	{
+		cameraList.add(new Camera(1,"something","4070",1000));
+		cameraList.add(new Camera(2,"Kodak","p=56a",2000));
+		cameraList.add(new Camera(3,"Sony","see",62000));
+		cameraList.add(new Camera(4,"Samsung","HD",4000));
+		cameraList.add(new Camera(5,"del","we2",600));
+		cameraList.add(new Camera(6,"Canon","Portrait",22000));
+		cameraList.add(new Camera(7,"Ss","2256",6000));
+
+		System.out.println("+----------------------------------+");
+		System.out.println("|   WELCOME TO CAMERA RENTAL APP   |");
+		System.out.println("+----------------------------------+");
+		System.out.println("PLEASE LOGIN TO CONTINUE - ");
+		Scanner sc = new Scanner(System.in);
+		System.out.print("USERNAME - " );
+		sc.nextLine();
+		System.out.print("PASSWORD - " );
+		sc.nextLine();
+		Menu m = new Menu();
+		m.display();
+		while(true) 
+		{
+			int n = sc.nextInt();
+			switch(n)
+			{
+				case 1: 
+					ArrayList<String> opt = new ArrayList<String>();
+					opt.add("1. ADD");
+					opt.add("2. REMOVE");
+					opt.add("3. VIEW MY CAMERAS");
+					opt.add("4. GO TO PREVIOUS MENU");
+					Iterator itr=opt.iterator();
+					while(itr.hasNext())
+					{ 
+						System.out.println(itr.next());
+					}
+					int p = sc.nextInt();
+					switch(p) 
+					{
+					case 1:
+					Scanner s = new Scanner(System.in);
+					System.out.print("ENTER THE CAMERA BRAND - ");
+					String str = s.nextLine();
+					System.out.print("ENTER THE MODEL - ");
+					String st = s.nextLine();
+					System.out.print("ENTER THE PER DAY PRICE (INR) - ");
+					double pr = s.nextDouble();
+					int newId = cameraList.size()+1;
+					Camera ob = new Camera(newId,str,st,pr);
+					cameraList.add(ob);
+					System.out.println("YOUR CAMERA HAS BEEN SUCCESSFULLY ADDED TO THE LIST");
+					break;
+					case 2:
+					if (cameraList.isEmpty()) {
+				            System.out.println("No Data Present at This Moment.");
+				            return;
+				        }
+					
+					System.out.println("====================================================================");
+					 System.out.printf("%10s %10s %10s %20s %10s \n" , "CAMERA ID" , "BRAND" , "MODEL" , "PRICE(PER DAY)", "STATUS" );
+					 System.out.println("\n====================================================================");
+					 for(Camera camera : cameraList) 
+					{
+						System.out.format("%10s %10s %10s %20s%10s \n", camera.getId(), camera.getBrand(), camera.getModel(), camera.getPrice(),camera.getStatus()?"Available":"Rented");
+						System.out.println();
+					}
+					Scanner sr = new Scanner(System.in);
+					System.out.print("ENTER THE CAMERA ID TO REMOVE - ");
+					int i = sr.nextInt();
+					
+					cameraList.remove(1);
+					System.out.println("CAMERA SUCCESSFULLY REMOVED FROM THE LIST.");
+			        
+					break;
+					case 3:
+					goViewAllCameras();
+					break;
+					case 4:
+					Menu mr = new Menu();
+					mr.display();
+					break;
+					}
+					break;
+					case 2:
+			
+						try {
+						withdraw();
+						}
+						catch(Exception e)
+						{
+							
+						}
+			
+						break;
+					case 3:
+						goViewAllCameras();
+						break;
+					case 4:
+						getWallet();
+						break;
+					case 5:
+						System.exit(0);
+			
+		}
+		
+	}
+	}
+	public static void getWallet() 
+	{
+		Wallet wallet = new Wallet(1000.0);
+		System.out.println("YOUR CURRENT WALLET BALANCE IS - INR." + wallet.getBalance());
+		System.out.println("DO YOU WANT TO DEPOSIT MORE AMOUNT TO YOUR WALLET?(1.YES 2.NO) - ");
+		Scanner scan = new Scanner(System.in);
+		int input = scan.nextInt();
+	    if (input == 1) {
+	        System.out.println("ENTER THE AMOUNT (INR) - ");
+	        double d = scan.nextDouble();
+	        double at = wallet.getBalance()+d;
+		    System.out.println("YOUR WALLET BALANCE UPDATED SUCCESSFULLY. CURRENT WALLET BALANCE - " + at);
+			
+	    } else {
+	        System.exit(0);
+	    }
+	}
+	private void goViewAllCameras() {
+		// TODO Auto-generated method stub
+		if (cameraList.isEmpty()) {
+		System.out.println("YOU HAVE NO CAMERAS.");
+		} 
+		else {
+		System.out.println("Cameras List:");
+		System.out.printf("%-5s %-10s %-10s %-15s %-10s%n", "ID", "Brand", "Model", "Rental Amount", "Status");
+		for (Camera camera : cameraList) 
+		{
+		String status = camera.getStatus() ? "Rented" : "Available";
+		System.out.printf("%-5d %-10s %-10s %-15.2f %-10s%n", camera.getId(), camera.getBrand(), camera.getModel(),
+		camera.getPrice(), status);
+		}
+		}
+		}
+
+	private void withdraw() throws InsufficientBalanceException
+	{
+		
+		System.out.println("FOLLOWING IS THE LIST OF AVAILABLE CAMERA(S)");
+		System.out.printf("%-5s %-10s %-10s %-15s %-10s%n", "ID", "Brand", "Model", "Rental Amount", "Status");
+		for (Camera camera : cameraList)
+		{
+		if (!camera.getStatus()) {
+		String status = "Available";
+		System.out.printf("%-5d %-10s %-10s $%-15.2f %-10s%n", camera.getId(), camera.getBrand(), camera.getModel(),
+		camera.getPrice(), status);
+		}
+		}
+
+
+
+	    Scanner sr = new Scanner(System.in);
+		System.out.print("ENTER THE CAMERA ID YOU WANT TO RENT - ");
+		for(Camera camera : cameraList) 
+		{
+		int id1 = sr.nextInt();
+		System.out.println("YOUR TRANSACTION FOR CAMERA - "+ camera.getBrand() + camera.getModel() +" with rent INR."+camera.getPrice() +"HAS SUCCESSFULLY COMPLETED");
+		if( camera.getId()== id1&& camera.getPrice()<=wallet.getBalance()) {
+			System.out.println("YOUR TRANSACTION FOR CAMERA - "+ camera.getBrand() + camera.getModel() +" with rent INR."+camera.getPrice() +"HAS SUCCESSFULLY COMPLETED");
+	    }
+	    else {
+	    	throw new InsufficientBalanceException("ERROR : TRANSACTION FAILED DUE TO INSUFFICIENT WALLET BALANCE.PLEASE DEPOSIT THE AMOUNT TO YOUR WALLET");
+	    }
+		}
+
+		
+
+		
+	}
+
+	public static void main(String[] args) {
+		CameraRental obj = new CameraRental();
+		obj.display();
+		
+		}
+				
+		          
+		    	
+		
+		   
+
+	
+
+}
+class Menu {
+	public void display() 
+	{
+		System.out.println("Options to be displayed");
+		ArrayList<String> op = new ArrayList<String>();
+		op.add("1. MY CAMERA");
+		op.add("2. RENT A CAMERA");
+		op.add("3. VIEW ALL CAMERAS");
+		op.add("4. MY WALLET");
+		op.add("5. EXIT");
+		Iterator itr=op.iterator();
+		while(itr.hasNext())
+		{ 
+		   System.out.println(itr.next());
+		}
+	}	
+}
+class Camera {
+	int id;
+	double price;
+	String br,model;
+	boolean rented;
+	public Camera(int id,String br,String model,double price)
+	{
+		this.id = id;
+		this.br = br;
+		this.model = model;
+		this.price = price;
+		this.rented = rented;
+		
+	}
+	public int getId() {
+        return id;
+    }
+
+    public String getBrand() {
+        return br;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+    public boolean getStatus() {
+    	return rented;
+    }
+   	public void setStatus(boolean rented) {
+   		this.rented = rented;
+    }
+}
+
+class Wallet 
+{
+	
+	private double amt;
+
+	public Wallet(double amt) {
+        amt = 3002;
+    }
+	public void deposit(double amount) {
+		amt += amount;
+		}
+
+
+    public double getBalance() {
+        return amt;
+    }
+    
+
+    public void setBalance(double amount)
+    {
+    	amt=amount;
+    }
+
+}
+class InsufficientBalanceException extends Exception {
+	public InsufficientBalanceException(String s) {
+		super(s);
+	}
+}
+
+	   
+OUTPUT:
++----------------------------------+
+|   WELCOME TO CAMERA RENTAL APP   |
++----------------------------------+
+PLEASE LOGIN TO CONTINUE - 
+USERNAME - KEERTHANA
+PASSWORD - keer'
+Options to be displayed
+1. MY CAMERA
+2. RENT A CAMERA
+3. VIEW ALL CAMERAS
+4. MY WALLET
+5. EXIT
+1
+1. ADD
+2. REMOVE
+3. VIEW MY CAMERAS
+4. GO TO PREVIOUS MENU
+3
+Cameras List:
+ID    Brand      Model      Rental Amount   Status    
+1     something  4070       1000.00         Available 
+2     Kodak      p=56a      2000.00         Available 
+3     Sony       see        62000.00        Available 
+4     Samsung    HD         4000.00         Available 
+5     del        we2        600.00          Available 
+6     Canon      Portrait   22000.00        Available 
+7     Ss         2256       6000.00         Available 
+2
+FOLLOWING IS THE LIST OF AVAILABLE CAMERA(S)
+ID    Brand      Model      Rental Amount   Status    
+1     something  4070       $1000.00         Available 
+2     Kodak      p=56a      $2000.00         Available 
+3     Sony       see        $62000.00        Available 
+4     Samsung    HD         $4000.00         Available 
+5     del        we2        $600.00          Available 
+6     Canon      Portrait   $22000.00        Available 
+7     Ss         2256       $6000.00         Available 
+ENTER THE CAMERA ID YOU WANT TO RENT - 1
+YOUR TRANSACTION FOR CAMERA - something4070 with rent INR.1000.0HAS SUCCESSFULLY COMPLETED
+4
+YOUR CURRENT WALLET BALANCE IS - INR.0.0
+DO YOU WANT TO DEPOSIT MORE AMOUNT TO YOUR WALLET?(1.YES 2.NO) - 
+1
+ENTER THE AMOUNT (INR) - 
+23453
+YOUR WALLET BALANCE UPDATED SUCCESSFULLY. CURRENT WALLET BALANCE - 23453.0
+
+	   
+	
+	
