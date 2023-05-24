@@ -1,0 +1,106 @@
+							DESCRIPTION
+
+This section will guide you to:
+
+Create an HTML page to send different requests via hyperlinks
+Create servlets to handle each request
+Show the output of the servlet showing whether the request came through a filter or not
+Development Environment
+
+Eclipse IDE for Enterprise Java Developers v2019-03 (4.11.0)
+Apache Tomcat Server v9.0
+JRE: OpenJDK Runtime Environment 11.0.2
+
+This guide has twelve subsections, namely:
+1.5.1 Creating a dynamic web project
+●	Open Eclipse 
+●	Go the File menu. Choose New->Dynamic Web Project
+●	Enter the project name as FilterDemo. Click on Next
+●	Enter nothing in the next screen and click on Next
+●	Check the checkbox Generate web.xml deployment descriptor and click on Finish
+●	This will create the project files in the Project Explorer
+
+1.5.2 Creating an HTML page
+•	In the Project Explorer, expand the project FilterDemo
+•	Expand WebContent. Right click on WebContent. Choose New->HTML File
+•	Enter the filename as index.html and click on Finish
+•	Enter the following code
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Servlet Interfaces</title>
+	</head>
+	<body>
+		<a href = "dashboard?userid = johndoe">Account Dashboard(allow filter)</a><br>
+		<a href = "profile?userid = johndoe">Account profile(allow filter)</a><br>
+		<a href = "dashboard">Account Dashboard(block filter)</a><br>
+		<a href = "info">Info Page</a><br>
+	</body>
+</html>		
+
+1.5.3 Creating an AccountProfile servlet
+●	In the Project Explorer, expand FilterDemo->Java Resources
+●	Right click on src and choose New->Servlet
+●	In Class Name, enter AccountProfile and click on Finish
+
+package com.simple;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class AccountProfile
+ */
+@WebServlet("/AccountProfile")
+public class AccountProfile extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public AccountProfile() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().write("I am in Account Profile after passingthrough LoginFilter");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+}
+
+1.5.4 Creating an AccountDashboard servlet
+•	In the Project Explorer, expand FilterDemo->Java Resources
+•	Right click on src and choose New->Servlet
+•	In Class Name, enter AccountDashboard and click on Finish
+similar to above code with class name AccountDashboard
+
+1.5.5 Creating an InfoPage servlet
+●	In the Project Explorer, expand FilterDemo->Java Resources
+●	Right click on src and choose New->Servlet
+●	In Class Name, enter InfoPage and click on Finish
+similar to above code with class name InfoPage
+
+1.5.6 Creating a LoginFilter filter
+●	In the Project Explorer, expand FilterDemo->Java Resources
+●	Right click on src and choose New->Filter
+●	In Class Name, enter LoginFilter and click on Finish
+similar to above code with class name LoginFilter
+

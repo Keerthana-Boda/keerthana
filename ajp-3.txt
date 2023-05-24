@@ -1,0 +1,81 @@
+					Generic Servlets..
+DESCRIPTION
+
+This section will guide you to:
+
+Create an HTML form to input name
+Send the form data to a servlet
+Display the name in the browser from the servlet
+ 
+ 
+package com.simple;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class GenericServlets
+ */
+@WebServlet("/GenericServlets")
+public class GenericServlets extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public GenericServlets() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String uname = request.getParameter("uname");
+		PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("Your full name is " + uname );
+        out.println("</body></html>");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	/*
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	*/
+
+}
+
+project.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action = "GenericServlets" method = "get">
+Enter name : 
+<input type = "text" name = "uname">
+<br><br>
+<input type = "Submit" value = "ok">
+</form>
+</body>
+</html>
+
+OUTPUT:
+
+Your full name is Keerthana
