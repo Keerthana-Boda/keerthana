@@ -1,0 +1,126 @@
+						Session Tracking Using URL Rewrite..
+DESCRIPTION
+
+This section will guide you to:
+
+● Create an HTML page to login with and without URL rewriting
+● Create servlets to handle each request
+● Show the output of the servlet showing whether the session was handled with URL rewriting or not
+
+ServletLogin.java
+
+package com.sipli;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletLogin
+ */
+@WebServlet("/ServletLogin")
+public class ServletLogin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletLogin() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	String userId = request.getParameter("userid");
+	response.sendRedirect("dashboard?userid=" +userId);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+Dashboard.java
+
+package com.sipli;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Dashboard
+ */
+@WebServlet("/Dashboard")
+public class Dashboard extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Dashboard() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+		String userId = request.getParameter("userid");
+		if(userId=null) 
+		{
+			out.println("No UserId was found in the URL."<br>");
+		}
+		else 
+		{
+			out.println("userId was obtained from URL Rewriting:"+userId +"<br>");
+		}
+		out.println("</body></html>");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+new.html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<a href = "login?userid = admin"> Dashboard with URL Rewriting based login</a><br>
+<a href = "dashboard">Dashboard without URL Rewriting based login</a><br>
+</body>
+</html>

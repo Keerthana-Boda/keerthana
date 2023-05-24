@@ -1,0 +1,137 @@
+				Session Tracking Using Hidden Form Fields..
+DESCRIPTION
+
+This section will guide you to:
+
+● Create an HTML page to login with and without hidden form fields
+● Create servlets to handle each request
+● Show the output of the servlet showing whether the session was handled with hidden form fields or not
+
+ ServletLogin.java
+
+package com.sipli;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletLogin
+ */
+@WebServlet("/ServletLogin")
+public class ServletLogin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletLogin() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+		String userId = request.getParameter("userid");
+        out.println("<form action='dashboard' method = 'post'>");
+		out.println("<input type = 'hidden' name = 'userid' id = 'userid' value = '''+userId + '''>");
+		out.println("<input type = 'submit' value = 'submit'>");
+		out.println("</form>");
+        out.println("</body></html>");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+
+Dashboard.java
+
+package com.sipli;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Dashboard
+ */
+@WebServlet("/Dashboard")
+public class Dashboard extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Dashboard() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+		String userId = request.getParameter("userid");
+		if(userId=null) 
+		{
+			out.println("No UserId was found in hidden form field."<br>");
+		}
+		else 
+		{
+			out.println("userId was found in hidden form field:"+userId +"<br>");
+		}
+		out.println("</body></html>");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+new.html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action = "login" method = "post">
+<input type = "hidden" name = "userid" id = "userid" value = "admin">
+<button> Dashboard with hidden form fields login</button>
+</form>
+<br>
+<br>
+<a href = "dashboard">Dashboard without hidden form fields login</a><br>
+</body>
+</html>

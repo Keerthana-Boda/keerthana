@@ -1,0 +1,136 @@
+						Session Tracking Using Cookies..
+DESCRIPTION
+
+This section will guide you to:
+
+● Create an HTML page to login with and without a cookie
+● Create servlets to handle each request
+● Show the output of the servlet showing whether the session was handled with a cookie or not
+
+
+ServletLogin.java
+
+package com.sipli;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ServletLogin
+ */
+@WebServlet("/ServletLogin")
+public class ServletLogin extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ServletLogin() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	Cookie userId = new Cookie("userid",request.getParameter("userid"));
+	response.addCookie(userId);
+	response.sendRedirect("dashboard");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+Dashboard.java
+
+package com.sipli;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class Dashboard
+ */
+@WebServlet("/Dashboard")
+public class Dashboard extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public Dashboard() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cookie cookie = null;
+		Cookie[] cookies = null;
+		boolean found = false;
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+		cookies = request.getCookies();
+		if(cookies!=null) {
+			for(int i=0; i < cookies.length; i++) {
+				cookie = cookies[i];
+				if(cookie.getName().contentEquals("userid") && cookie.getValue()!=null) {
+					out.println("UserId read from cookie:"+cookie.getValue()+"<br>");
+				found = true;
+				}
+			}
+		}
+		if(!found) {
+			out.println("No userId was found in cookie.<br>");
+		}
+		out.println("</body></html>");
+		
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+new.html
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<a href = "login?userid = admin"> Dashboard with cookie login</a><br>
+<a href = "dashboard">Dashboard without cookie login</a><br>
+</body>
+</html>
