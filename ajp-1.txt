@@ -1,0 +1,116 @@
+					Difference between GET and POST ..
+DESCRIPTION
+
+This section will guide you to:
+
+● Create an HTML page to send a GET request and a POST request
+● Create a servlet to handle the GET request
+
+package com.simpli;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+
+
+@WebServlet("/ProjectDemo")
+public class ProjectDemo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    
+    public ProjectDemo() {
+        super();
+        
+    }
+
+	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		String uname = request.getParameter("uname");
+		
+		out.println("Hello "+ uname );
+		out.println("This is doGet method");
+	}
+}
+
+login.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LogIn Page</title>
+</head>
+<body>
+<form action = "ProjectDemo" method = "get">
+Enter your username : 
+<input type = "text" name = "uname"><br><br>
+
+<input type = "Submit" name = "Login">
+
+</body>
+</html>
+
+OUTPUT:
+
+Hello Keerthana
+This is doGet method
+
+
+● Create a servlet to handle the POST request
+
+ package com.simpli;
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+
+
+@WebServlet("/ProjectDemo")
+public class ProjectDemo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    
+    public ProjectDemo() {
+        super();
+        
+    }
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		String uname = request.getParameter("uname");
+		
+		out.println("Hello "+ uname );
+		out.println("This is doPost method");
+	}	
+}
+
+login.html
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>LogIn Page</title>
+</head>
+<body>
+<form action = "ProjectDemo" method = "post">
+Enter your username : 
+<input type = "text" name = "uname"><br><br>
+
+<input type = "Submit" name = "Login">
+
+</body>
+</html>
+
+OUTPUT:
+
+Hello Nikitha
+This is doPost method
