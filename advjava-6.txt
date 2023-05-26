@@ -1,0 +1,142 @@
+				Insertion, Updation, and Deletion of Database Records
+DESCRIPTION
+
+This section will guide you to:
+
+● Set up Eclipse to work with JDBC
+● Create a database and a table in MySQL  
+● Create an HTML page to call a servlet
+● Create a servlet that will use JDBC to insert, update, and delete data
+
+DBOperations
+
+package com.simpli;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Properties;
+
+import java.sql.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class dboperations
+ */
+@WebServlet("/dboperations")
+public class DBOperations extends HttpServlet 
+{
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public DBOperations() 
+	{
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try
+		{
+			PrintWriter out = response.getWriter();
+			out.println("<html><body>");
+			InputStream in = getServletContext().getResourceAsStream("config.properties");
+	        Properties props = new Properties();
+	        props.load(in);
+	        
+	        DBUtil dbutil = new DBUtil(props.getProperty("url"),
+	        props.getProperty("userid"), props.getProperty("password"));
+	        Statement stmt = dbutil.getConnection().createStatement();
+	        stmt.executeUpdate("insert into employee(ID,name,age) VALUES(101,'RAAHUL',26)");
+	        out.println("Inserted values of database records<br>");
+	        stmt.executeUpdate("update employee SET age =27 where ID = 101");
+	        out.println("Updated values of database records<br>");
+	        stmt.executeUpdate("alter table employee drop where ID = 100");
+	        out.println("Dropped values of database records <br>");
+	        stmt.close();
+	        out.println("Dropped values of database records <br>");
+	        dbutil.closeConnection();
+	        out.println("</body></html>");
+	        dbutil.closeConnection();
+		}
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+DBUtil.java
+
+package com.simpli;
+import java.sql.*;
+public class DBUtil 
+{
+	Connection connection;
+	public DBUtil(String dbURL, String user, String pwd) 
+	{
+		try 
+		{
+			// step 1 : Loading the JDBC driver class;
+			Class.forName("com.mysql.jdbc.Driver");
+			// step 2 : Use the Driver Manager to get a connection to the database;
+			this.connection = DriverManager.getConnection(dbURL, user, pwd);
+		}
+		catch (ClassNotFoundException e) 
+		{
+			System.out.println(e);
+		}
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+		}
+	}
+	public Connection getConnection() 
+	{
+		return this.connection;
+	}
+
+	public void closeConnection() throws SQLException 
+	{
+		if (this.connection != null)
+			this.connection.close();
+	}
+}
+
+config.properties
+
+url=jdbc:mysql://localhost:3306/ecommerce
+userid=root
+password=Simplilearn
+
+index.html
+
+<a href = "dboperations">
+Database Operations</a>
+
+
+OUTPUT
+
+Database Operations
+
+Inserted values of database records
+Updated values of database records

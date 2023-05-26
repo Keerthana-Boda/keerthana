@@ -1,0 +1,173 @@
+					JDBC Connections, Statements, and Result Sets ..
+DESCRIPTION
+This section will guide you to:
+●    Set up Eclipse to work with JDBC
+●    Create a database and a table in MySQL  
+●    Create an HTML page to call a servlet
+●    Create a servlet that will use JDBC to list data from a table and add data to it using statements and resultsets
+
+DBUtil.java
+
+package com.simpli;
+import java.sql.*;
+public class DBUtil 
+{
+	Connection connection;
+	public DBUtil(String dbURL, String user, String pwd) 
+	{
+		try 
+		{
+			// step 1 : Loading the JDBC driver class;
+			Class.forName("com.mysql.jdbc.Driver");
+			// step 2 : Use the Driver Manager to get a connection to the database;
+			this.connection = DriverManager.getConnection(dbURL, user, pwd);
+		}
+		catch (ClassNotFoundException e) 
+		{
+			System.out.println(e);
+		}
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+		}
+	}
+	public Connection getConnection() 
+	{
+		return this.connection;
+	}
+	public void closeConnection() throws SQLException 
+	{
+		if (this.connection != null)
+			this.connection.close();
+	}
+}
+
+
+JDBCStatement.java
+
+package com.simpli;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Properties;
+import java.sql.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * Servlet implementation class statement-demo
+ */
+@WebServlet("/statement-demo")
+public class JDBCStatementDemo extends HttpServlet 
+{
+	private static final long serialVersionUID = 1L;
+	Connection connection = null;
+
+	public void init() throws ServletException 
+	{
+		super.init();
+		// Load the DB properties from the config file
+		InputStream in = getServletContext().getResourceAsStream("config.properties");
+		Properties props = new Properties();
+		try 
+		{
+			props.load(in);
+		} catch (IOException e) 
+		{
+			System.out.println(e);
+		}
+		DBUtil dbutil = new DBUtil(props.getProperty("url"), props.getProperty("userid"),
+		props.getProperty("password"));
+		connection = dbutil.getConnection();
+		System.out.println("DB Connection initialized successfully!.<br>");
+	}
+	public JDBCStatementDemo() {
+        super();
+    }
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+		try 
+		{
+			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String id = request.getParameter("id");			
+			ResultSet rs = stmt.executeQuery("SELECT * from product");
+			while (rs.next()) 
+			{
+				String ID = rs.getString("ID");
+				String name = rs.getString("name");
+				float price = rs.getFloat("price");
+				String date_added = rs.getString("date_added");
+				out.println(ID + ", " + name + ", " + price + ", " + date_added + "<br>");
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		try 
+		{
+			Statement stmt2 = connection.createStatement();
+			int count = stmt2.executeUpdate("INSERT INTO product(name,price) values('Phillips Mixer', 2000.60);");
+			out.println("Added " + count + " row");
+		} 
+		catch (SQLException e) 
+		{
+
+		}
+		out.println("</body></html>");
+	}	
+	@Override
+	public void destroy() {		
+		super.destroy();
+		try {
+			connection.close();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	/*
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	*/
+}
+
+
+config.properties
+
+url=jdbc:mysql://localhost:3306/ECOMMERCE
+userid=root
+password=Simplilearn
+
+index.html
+
+<center><h3>JDBC Init Demo</h3></center>
+<a href="init" >Initialize JDBC here</a>
+<br><br>
+<center><h3>JDBC Statement, Query Demo</h3></center>
+<a href="statement-demo" >JDBC Statement, Query Demo here</a>
+
+OUTPUT
+
+		JDBC Init Demo
+Initialize JDBC here
+DB Connection initialized successfully!
+
+
+		JDBC Statement, Query Demo
+JDBC Statement, Query Demo here
+1, HP Laptop ABC, 12000.0, 2023-05-26 11:40:37
+2, DELL PC ABC, 19000.0, 2023-05-26 11:40:37
+3, Samsung Laptop PQR, 22000.0, 2023-05-26 11:40:37
+Added 1 row
