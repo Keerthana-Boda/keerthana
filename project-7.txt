@@ -1,0 +1,147 @@
+					Retrieving the Product Details Using the Product ID..
+DESCRIPTION
+
+Project objective:
+Create a servlet-based application that shows a form to enter a product ID.The product ID is then validated, and product details are retrieved from the database and displayed to the user. You need to create a product table in MySQL and prepopulate it with data. Use JDBC to do all database processing.
+
+DBUtil.java
+
+package com.simpli;
+import java.sql.*;
+public class DBUtil 
+{
+	Connection connection;
+	public DBUtil(String dbURL, String user, String pwd) 
+	{
+		try 
+		{
+			// step 1 : Loading the JDBC driver class;
+			Class.forName("com.mysql.jdbc.Driver");
+			// step 2 : Use the Driver Manager to get a connection to the database;
+			this.connection = DriverManager.getConnection(dbURL, user, pwd);
+		}
+		catch (ClassNotFoundException e) 
+		{
+			System.out.println(e);
+		}
+		catch (SQLException e) 
+		{
+			System.out.println(e);
+		}
+	}
+	public Connection getConnection() 
+	{
+		return this.connection;
+	}
+
+	public void closeConnection() throws SQLException 
+	{
+		if (this.connection != null)
+			this.connection.close();
+	}
+}
+
+JDBCStatement.java
+
+package com.simpli;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Properties;
+import java.sql.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ * Servlet implementation class statement-demo
+ */
+@WebServlet("/statement-demo")
+public class JDBCStatementDemo extends HttpServlet 
+{
+	private static final long serialVersionUID = 1L;
+	Connection connection = null;
+
+	public void init() throws ServletException 
+	{
+		super.init();
+		// Load the DB properties from the config file
+		InputStream in = getServletContext().getResourceAsStream("config.properties");
+		Properties props = new Properties();
+		try 
+		{
+			props.load(in);
+		} catch (IOException e) 
+		{
+			System.out.println(e);
+		}
+		DBUtil dbutil = new DBUtil(props.getProperty("url"), props.getProperty("userid"),
+		props.getProperty("password"));
+		connection = dbutil.getConnection();
+		System.out.println("DB Connection initialized successfully!.<br>");
+	}
+	public JDBCStatementDemo() {
+        super();
+    }
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+		try 
+		{
+			Statement stmt = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			String id = request.getParameter("id");			
+			ResultSet rs = stmt.executeQuery("SELECT * from product where ID = 1");
+			while (rs.next()) 
+			{
+				String ID = rs.getString("ID");
+				String name = rs.getString("name");
+				float price = rs.getFloat("price");
+				String date_added = rs.getString("date_added");
+				out.println(ID + ", " + name + ", " + price + ", " + date_added + "<br>");
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		out.println("</body></html>");
+	}	
+	@Override
+	public void destroy() {		
+		super.destroy();
+		try {
+			connection.close();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	/*
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	*/
+}
+
+config.properties
+
+url=jdbc:mysql://localhost:3306/ecommerce
+userid=root
+password=Simplilearn
+
+index.html
+
+<form action = "JDBCStatementDemo" method = "get">
+Enter Product ID :
+<input type = "text" name = "id"><br><br>
+
+<center><h3>JDBC Statement, Query Demo</h3></center>
+<a href="statement-demo" >JDBC Statement, Query Demo here</a>
