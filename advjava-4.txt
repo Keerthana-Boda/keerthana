@@ -1,0 +1,92 @@
+				Stored Procedures with Exceptions 
+DESCRIPTION
+
+This section will guide you to:
+
+●    Set up Eclipse to work with JDBC
+●    Create a database and a table in MySQL  
+●    Create a stored procedure in MySQL
+●    Create an HTML page to call a servlet
+●    Create a servlet that calls the stored procedure using JDBC
+
+JDBCStatementDemo.java
+
+package com.simpli;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.Properties;
+import java.sql.*;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class statement-demo
+ */
+@WebServlet("/statement-demo")
+public class JDBCStatementDemo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	
+	public JDBCStatementDemo() 
+	{
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		try 
+		{
+			PrintWriter out = response.getWriter();
+			out.println("<html><body>");
+			InputStream in = getServletContext().getResourceAsStream("config.properties");
+			Properties props = new Properties();
+			props.load(in);
+			DBUtil dbutil = new DBUtil(props.getProperty("url"), props.getProperty("userid"),
+							props.getProperty("password"));
+			CallableStatement stmt = dbutil.getConnection().prepareCall("{call add_product(?,?)}");
+			stmt.setString(1, "new product");
+            stmt.setBigDecimal(2, new BigDecimal(1900.50));
+            stmt.executeUpdate();                        
+            out.println("Stored procedure has been executed.<Br>");
+			stmt.close();
+			out.println("</body></html>");
+			dbutil.closeConnection();                       
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+}
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	/*
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	*/
+}
+
+config.properties
+
+url=jdbc:mysql://localhost:3306/ECOMMERCE
+userid=root
+password=Simplilearn
+
+index.html
+
+<center><h3>JDBC Statement, Query Demo</h3></center>
+<a href="statement-demo" >JDBC Statement, Query Demo here</a>
+
+
+
