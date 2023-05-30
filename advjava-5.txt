@@ -49,7 +49,7 @@ public class DBOperations extends HttpServlet {
 	        props.load(in);
 	        
 	        DBUtil dbutil = new DBUtil(props.getProperty("url"),
-	        			props.getProperty("userid"), props.getProperty("password"));
+	        props.getProperty("userid"), props.getProperty("password"));
 	        Statement stmt = dbutil.getConnection().createStatement();
 	        stmt.executeUpdate("create database mydatabase");
 	        out.println("Created database: mydatabase<br>");

@@ -1,0 +1,151 @@
+					Adding a New Product in the Database..
+					
+package com.simpli;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Properties;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class PreparedStatementDemo
+ */
+@WebServlet("/prepared-statement-demo")
+public class PreparedStatementDemo extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	Connection connection = null;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		// Load the DB properties from the config file
+		InputStream in = getServletContext().getResourceAsStream("config.properties");
+
+		Properties props = new Properties();
+		try {
+			props.load(in);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+		DBUtil dbutil = new DBUtil(props.getProperty("url"), props.getProperty("userid"),
+				props.getProperty("password"));
+
+		connection = dbutil.getConnection();
+		System.out.println("DB Connection initialized successfully!.<br>");
+	}
+    public PreparedStatementDemo() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+
+		try {
+			// Step 3: create the prepared statement
+			
+			PreparedStatement pStmt = 
+					connection.prepareStatement("SELECT * FROM eproduct where price>? and  price<?" );
+			pStmt.setFloat(1, 10000.0f);
+			pStmt.setFloat(2, 50000.0f);
+			
+			pStmt.execute();
+			
+			// Step 4: Get the results (row data) from server	
+			ResultSet rs = pStmt.getResultSet();					
+
+			out.println("eproduct Table data<br>");
+			while (rs.next()) {
+				String ID = rs.getString("ID");
+				String name = rs.getString("name");
+				float price = rs.getFloat("price");
+				String date_added = rs.getString("date_added");
+
+				out.println(ID + ", " + name + ", " + price + ", " + date_added + "<br>");
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		out.println("</body></html>");
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		// Demo inserting new row using Prepared statement
+		try {
+			PreparedStatement pStmt2 = connection.prepareStatement("INSERT INTO eproduct(name,price) values(?, ?)");
+
+			pStmt2.setString(1, request.getParameter("name"));
+			pStmt2.setString(2, request.getParameter("price"));
+
+			pStmt2.execute();
+
+			out.println("Added  1 product ");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
+
+
+config.properties
+
+url=jdbc:mysql://localhost:3306/mydatabase
+userid=root
+password=Simplilearn
+
+hibernate.cfg.xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>       
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/mydatabase</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">Simplilearn</property>   
+  </session-factory>
+</hibernate-configuration>
+
+index.jsp
+
+<form action="prepared-statement-demo" METHOD=POST>
+<br>Name <input name=name>
+<br>Price <input name=price>
+<br><input type=submit>
+</form>

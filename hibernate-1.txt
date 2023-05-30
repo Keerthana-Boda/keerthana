@@ -1,0 +1,136 @@
+					Configuration of Hibernate..
+DESCRIPTION
+This section will guide you to:
+● Set up Eclipse to work with Hibernate
+● Create an HTML page to call a servlet
+● Create a servlet that will initialize Hibernate and then close it
+
+
+HibernateInit.java
+
+package com.simpli;
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+
+/**
+ * Servlet implementation class HibernateInit
+ */
+@WebServlet("/init")
+public class HibernateInit extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public HibernateInit() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+
+		// STEP 1: Get a Session (connection) from the Session Factory class
+		SessionFactory factory = HibernateUtil.getSessionFactory();
+
+		// STE2 Create the session object
+		Session session = factory.openSession();
+
+		out.println("Hibernate Session opened.<br>");
+
+		session.close();
+
+		out.println("Hibernate Session closed.<br>");
+
+		out.println("</body></html>");
+	
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+HibernateUtil.java
+
+package com.simpli;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+public class HibernateUtil {
+	private static final SessionFactory sessionFactory;
+
+	static {
+		try {
+			StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+					.configure("hibernate.cfg.xml").build();
+
+			Metadata metaData = new MetadataSources(standardRegistry).getMetadataBuilder().build();
+			
+			sessionFactory = metaData.getSessionFactoryBuilder().build();
+
+		} catch (Throwable th) {
+			throw new ExceptionInInitializerError(th);
+		}
+	}
+
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+
+}
+
+
+hibernate.cfg.xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>       
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/ecommerce</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">Simplilearn</property>   
+  </session-factory>
+</hibernate-configuration>
+
+index.html
+
+<title>Hibernate Configuration Example </title>
+<h3>Hibernate Configuration Example </h3>
+
+<a href="init">Initialize Hibernate</a><br>
+
+OUTPUT
+Hibernate Configuration Example
+
+Initialize Hibernate
+
+Hibernate Session opened.
+Hibernate Session closed.
