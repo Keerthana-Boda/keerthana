@@ -1,0 +1,11 @@
+					Integration of Hibernate with Spring..
+DESCRIPTION
+This section will guide you to:
+● Set up Eclipse to work with Spring and Hibernate
+● Set up database tables to use Hibernate with Spring
+● Create a pom.xml configuration file to add all the required components
+● Create an HTML page to call a Controller
+● Create a Controller to display product listing in a jsp page
+● Create an Entity class, a DAO and a Service class to work with the database tables
+
+ 

@@ -1,0 +1,9 @@
+				Component Mapping..
+DESCRIPTION
+This section will guide you to:
+● Set up Eclipse to work with Hibernate
+● Set up database tables to do collection mapping using XML
+● Create an HTML page to call a servlet
+● Create a servlet that will display data from the tables using Component Mapping
+
+ 
