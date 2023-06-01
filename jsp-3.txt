@@ -1,0 +1,6 @@
+				JSP Directives
+DESCRIPTION
+This section will guide you to:
+● Create a JSP file to test JSP directives and run it in the browser
+● Show how an include directive works using a second JSP file
+

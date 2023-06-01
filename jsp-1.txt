@@ -1,0 +1,27 @@
+			Creating a Simple JSP Page 
+DESCRIPTION
+This section will guide you to:
+● Create a JSP file and run it in the browser
+
+index.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Hello World JSP</title>
+</head>
+<body>
+<h1> Hello World JSP</h1>
+<% out.println("Today is Sunday :"  + new java.util.Date()); %>
+
+</body>
+</html>
+
+OUTPUT
+
+Hello World JSP
+
+Today is Sunday :Thu Jun 01 04:54:33 UTC 2023

@@ -1,0 +1,106 @@
+				Product Details Portal
+DESCRIPTION
+Create a servlet-based web application that shows a form to enter product details. Capture the details in a servlet and then display the data that was entered.
+
+index.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSP Sessions</title>
+</head>
+<body>
+
+<form action="ProductServlet" method="get">
+  Product ID <input type="text" name="id" maxlength=40><br>
+  Product Name <input name="name" id="name" maxlength=40><br>
+  Product price <input type="text" name="price" maxlength="10"><br>
+  <button>Submit</button>
+  
+</form>
+</body>
+</html>
+
+
+ProductServlet.java
+
+package com.simpli;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.to.Product;
+
+/**
+ * Servlet implementation class ProductServlet
+ */
+@WebServlet("/ProductServlet")
+public class ProductServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ProductServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws 
+			ServletException, IOException {
+		String Id = request.getParameter("id");
+		String Name = request.getParameter("name");
+		String Price = request.getParameter("price");
+		PrintWriter out = response.getWriter();
+		out.println("Product Details" +" "+ Id +" "+ Name +" "+ Price );
+		
+	}
+}
+
+Product.java
+
+package com.to;
+
+public class Product {
+	private String id;
+	private String name;
+	private String price;
+	
+	public Product() {}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
+	public String toString() {
+		return "Product[ID= "+id+" Name= " +name+ "Price= "+price+"]"; 
+	}
+}

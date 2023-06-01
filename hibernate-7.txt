@@ -6,4 +6,208 @@ This section will guide you to:
 ● Create an HTML page to call a servlet
 ● Create a servlet that will display data from the tables using Component Mapping
 
- 
+package com.simpli;
+
+import java.io.*;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+
+import org.hibernate.*;
+
+import com.ecommerce.EProduct;
+import com.ecommerce.ProductParts;
+
+@WebServlet("/component_mapping-demo")
+public class ComponentMappingDemo extends HttpServlet {
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+
+		SessionFactory factory = HibernateUtil.getSessionFactory();
+		Session session = factory.openSession();
+
+	
+		// STEP 3 Query the DB and get the data
+		List<EProduct> eproducts = session.createQuery("from EProduct").list();
+out.println("<table border=1>");
+		
+		for (EProduct prod : eproducts) {
+			out.println("<tr>" + "<td>" + prod.getID() + "<td>" + prod.getName() + "<td>" + prod.getPrice() + "<td>"
+					+ prod.getDateAdded());
+			
+			ProductParts parts = prod.getParts();
+			out.println("<td> Parts =" + parts.getCpu() + ", " + parts.getHdd() + ", " + parts.getRam());
+			
+		}
+		
+		out.println("</table>");
+
+		session.close();
+
+		out.println("</body></html>");
+	}
+
+}
+
+use ecommerce;
+DROP TABLE IF EXISTS `eproduct`;
+CREATE TABLE `eproduct` (
+  `ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `date_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `parts_hdd` varchar(10) DEFAULT NULL,
+  `parts_cpu` varchar(10) DEFAULT NULL,
+  `parts_ram` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+);
+
+INSERT INTO `eproduct` VALUES (1,'HP Laptop ABC',21900.00,'2019-06-04 07:18:57','2 Gb HDD','AMD Phenom','4 Gb'),(2,'Acer Laptop ABC',23300.00,'2019-06-04 07:19:07','500 Gb HDD','Core-i7','4 Gb'),(3,'Lenovo Laptop ABC',33322.00,'2019-06-04 07:19:19','1 Tb HDD','Core-i7','8 Gb');
+package com.ecommerce;
+
+ProductParts.java
+
+public class ProductParts {
+	
+	 private String hdd;
+     private String cpu;
+     private String ram;
+     
+     public String getHdd() { return this.hdd;}
+     public String getCpu() { return this.cpu;}
+     public String getRam() { return this.ram;}
+     
+     public void setHdd(String value) { this.hdd= value;}
+     public void setCpu(String value) { this.cpu= value;}
+     public void setRam(String value) { this.ram= value;}
+
+}
+
+In Eproduct.java //Component object
+package com.mydatabase;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+public class EProduct {
+	private long ID;
+	private String name;
+	private BigDecimal price;
+	private Date dateAdded;
+	
+	
+	private List<Color> colors;
+    private Collection<ScreenSizes> screenSizes;
+    private Set<OS> os;
+    private Map finance ;
+	private ProductParts parts;
+	
+	
+	public ProductParts getParts() {
+		return parts;
+	}
+
+	public void setParts(ProductParts parts) {
+		this.parts = parts;
+	}
+
+	public EProduct() {
+
+	}
+
+	public EProduct(long id, String name, BigDecimal price, Date dateAdded) {
+		this.ID = id;
+		this.name = name;
+		this.price = price;
+		this.dateAdded = dateAdded;
+	}
+	
+	public long getID() {
+		return ID;
+	}
+
+	public void setID(long iD) {
+		ID = iD;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Date getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(Date dateAdded) {
+		this.dateAdded = dateAdded;
+	}
+
+	
+}
+
+
+EProduct.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.mydatabase">
+	<class name="EProduct" table="eproduct">
+		<id name="ID" column="ID">
+			<generator class="increment" />
+		</id>
+		<property name="name" type="string" column="NAME" />
+		<property name="price" type="big_decimal" column="PRICE" />
+		<property name="dateAdded" type="timestamp"
+			column="DATE_ADDED" />
+		<component name="parts" class="com.ecommerce.ProductParts">
+			<property name="hdd" column="parts_hdd" type="string" />
+			<property name="cpu" column="parts_cpu" type="string" />
+			<property name="ram" column="parts_ram" type="string" />
+		</component>		
+	</class>
+</hibernate-mapping>
+
+
+hibernate.cfg.xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>       
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/ecommerce</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">Simplilearn</property>   
+  </session-factory>
+  <mapping  resource="com/mydatabase/EProduct.hbm.xml"/>
+</hibernate-configuration>
+	
+
+index.html
+
+<br><br>
+<h3>Hibernate Component Mapping  Demo </h3>
+<a href="component_mapping-demo">Click here</a><br>

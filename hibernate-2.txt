@@ -56,7 +56,7 @@ hibernate.cfg.xml
     <property name="connection.username">root</property>
     <property name="connection.password">Simplilearn</property>   
   </session-factory>
-  <mapping resource="EProduct.hbm.xml"/>  
+  <mapping  resource="com/mydatabase/EProduct.hbm.xml"/>
 </hibernate-configuration>
 
 EProduct.hbm.xml
@@ -81,7 +81,7 @@ EProduct.java
 package com.simpli;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 public class EProduct {
 	private long ID;
@@ -185,3 +185,22 @@ index.html
 <h3>Hibernate Query Demo </h3>
 
 <a href="query-demo">Query Here and get the data</a><br>
+
+OUTPUT
+
+Hibernate Session opened.
+1	Fan	4000.00	2023-05-29 05:36:23.0
+2	AC	30000.00	2023-05-29 05:36:23.0
+3	Cooler	4000.00	2023-05-29 05:36:23.0
+4	MAC PC 2	3.00	2023-05-29 05:55:53.0
+5	hp	80000.00	2023-05-29 06:12:59.0
+6	HP Laptop ABC	12000.00	2023-05-29 06:28:18.0
+7	DELL PC ABC	19000.00	2023-05-29 06:28:18.0
+8	Samsung Laptop PQR	22000.00	2023-05-29 06:28:18.0
+9	Phillips Mixer	2000.60	2023-05-29 06:36:01.0
+10	Phillips Mixer	2000.60	2023-05-29 06:55:19.0
+11	acer	10000.90	2023-05-29 06:58:43.0
+12	lenovo	40000.08	2023-05-30 12:43:46.0
+13	lenovo	40000.08	2023-05-30 12:45:24.0
+14	lenovo	80000.00	2023-05-30 13:41:49.0
+Hibernate Session closed.

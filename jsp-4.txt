@@ -1,0 +1,127 @@
+				JSP Action Tags..
+DESCRIPTION
+This section will guide you to:
+● Create a JSP file to test JSP action tags and run it in the browser
+● Show how the forward tag works with two JSP files
+● Create a Java Bean class to use in JSP
+● See how the useBean tag works in a separate JSP file
+
+index.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSP Action Tags</title>
+</head>
+<body>
+Usage of useBean tag<br>
+<jsp:useBean id="productBean" class="com.mydatabase.ProductBean" scope="session"></jsp:useBean>
+        <jsp:setProperty property="productId" name="productBean" value="18791"/>
+        <jsp:setProperty property="productName" name="productBean" value="Optical Wireless Mouse"/>
+        <jsp:setProperty property="price" name="productBean" value="600.00"/>
+		<a href="showbean.jsp">Access bean properties from another page</a><br>
+<a href="forward.jsp">Use Forward action to go to Google</a><br>
+
+<hr>
+
+<jsp:text>
+        <![CDATA[This is my content.<br/>This will show within a text action tag exactly as it has been entered]]>
+</jsp:text>
+
+</body>
+</html>
+			
+forward.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+
+<jsp:forward page="forwarded.jsp"></jsp:forward>
+
+
+forwarded.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Forward Test</title>
+</head>
+<body>
+This page came from forward.jsp by using jsp:forward action tag
+
+</body>
+</html>
+
+showbean.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Display Bean properties</title>
+</head>
+<body>
+<jsp:useBean id="productBean" class="com.mydatabase.ProductBean" scope="session"></jsp:useBean>
+        Product Id:    <jsp:getProperty name="productBean" property="productId" />  <br>
+        Product Name:    <jsp:getProperty name="productBean" property="productName" />  <br>
+        Product Price:    <jsp:getProperty name="productBean" property="price" />  <br>
+
+</body>
+</html>
+
+
+ProductBean.java
+
+package com.mydatabase;
+
+import java.io.Serializable;
+
+public class ProductBean implements Serializable{
+    private String productId;
+    private String productName;
+    private double price;
+    
+    public void setProductId(String value) {
+            this.productId = value;
+    }
+    public void setProductName(String value) {
+            this.productName = value;
+    }
+    public void setPrice(double value) {
+            this.price = value;
+    }
+    
+    public String getProductId() {
+            return this.productId;
+    }
+    public String getProductName() {
+            return this.productName;
+    }
+    public double getPrice() {
+            return this.price;
+    }
+    
+
+}
+
+
+OUTPUT:
+
+http://localhost:3090/JSPActionTagsDemo/index.jsp
+Usage of useBean tag
+Access bean properties from another page
+Use Forward action to go to Google
+This is my content.
+This will show within a text action tag exactly as it has been entered
+
+http://localhost:3090/JSPActionTagsDemo/showbean.jsp
+Product Id: 18791 
+Product Name: Optical Wireless Mouse 
+Product Price: 600.0 
+
+http://localhost:3090/JSPActionTagsDemo/forward.jsp
+This page came from forward.jsp by using jsp:forward action tag
