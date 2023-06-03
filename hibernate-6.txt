@@ -6,4 +6,446 @@ This section will guide you to:
 ● Create an HTML page to call a servlet
 ● Create a servlet that will display data from the tables using Lazy Collections
 
+Color.java
+
+package com.mydatabase;
+
+public class Color {
+	private long COLORID;
+    private String name;
+    
+    public Color() {
+            
+    }
+    public Color(String name) {
+            this.COLORID = 0;
+            this.name = name;
+    }
+    
+    public long getCOLORID() {return this.COLORID; }
+    public String getName() { return this.name;}
+    public void setCOLORID(long id) { this.COLORID = id;}
+    public void setName(String name) { this.name = name;}
+	
+}
+
+EProduct.java
+
+package com.mydatabase;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+public class EProduct {
+	private long ID;
+	private String name;
+	private BigDecimal price;
+	private Date dateAdded;
+	
+	
+	private List<Color> colors;
+    private Collection<ScreenSizes> screenSizes;
+    private Set<OS> os;
+    private Map finance ;
+
+	public EProduct() {
+
+	}
+
+	public EProduct(long id, String name, BigDecimal price, Date dateAdded) {
+		this.ID = id;
+		this.name = name;
+		this.price = price;
+		this.dateAdded = dateAdded;
+	}
+	
+	public long getID() {
+		return ID;
+	}
+
+	public void setID(long iD) {
+		ID = iD;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public Date getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(Date dateAdded) {
+		this.dateAdded = dateAdded;
+	}
+
+	public List<Color> getColors() {
+		return colors;
+	}
+	
+	public void setColors(List<Color> colors) {
+		this.colors = colors;
+	}
+
+	public Collection<ScreenSizes> getScreenSizes() {
+		return screenSizes;
+	}
+
+	public void setScreenSizes(Collection<ScreenSizes> screenSizes) {
+		this.screenSizes = screenSizes;
+	}
+
+	public Set<OS> getOs() {
+		return os;
+	}
+
+	public void setOs(Set<OS> os) {
+		this.os = os;
+	}
+
+	public Map getFinance() {
+		return finance;
+	}
+
+	public void setFinance(Map finance) {
+		this.finance = finance;
+	}
+	
  
+}
+
+Finance.java
+
+package com.mydatabase;
+
+public class Finance {
+	private long FINANCEID;
+    private String name;
+    private String ftype;
+    
+    public Finance() {
+            
+    }
+    public Finance(String name, String ftype) {
+            this.FINANCEID = 0;
+            this.name = name;
+            this.ftype = ftype;
+    }
+    
+    public long getFINANCEID() {return this.FINANCEID; }
+    public String getName() { return this.name;}
+    public String getFtype() { return this.ftype;}
+    public void setFINANCEID(long id) { this.FINANCEID = id;}
+    public void setName(String name) { this.name = name;}
+    public void setFtype(String ftype) { this.ftype= ftype;}
+}
+
+OS.java
+
+package com.mydatabase;
+
+public class OS {
+	private long OSID;
+    private String name;
+    
+    public OS() {
+            
+    }
+    public OS(String name) {
+            this.OSID = 0;
+            this.name = name;
+    }
+    
+    public long getOSID() {return this.OSID; }
+    public String getName() { return this.name;}
+	
+    public void setOSID(long oSID) {
+		OSID = oSID;
+	}
+	public void setName(String name) {
+		this.name = name;
+	} 
+}
+
+
+ScreenSizes.java
+
+package com.mydatabase;
+
+public class ScreenSizes {
+	
+	private long SCREENID;
+    private String size;
+    
+    public ScreenSizes() {
+            
+    }
+    public ScreenSizes(String size) {
+            this.SCREENID = 0;
+            this.size = size;
+    }
+    
+    public long getSCREENID() {return this.SCREENID; }
+    public String getSize() { return this.size;}
+    public void setSCREENID(long id) { this.SCREENID = id;}
+    public void setSize(String size) { this.size = size;}
+  
+}
+
+Color.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.mydatabase">
+    <class name="Color" table="colors">
+        <id name="COLORID" type="long" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="name" type="string" column="COLOR_NAME"/>
+    </class>
+</hibernate-mapping>
+
+OS.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.mydatabase">
+    <class name="OS" table="os">
+        <id name="OSID" type="long" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="name" type="string" column="NAME"/>
+    </class>
+</hibernate-mapping>
+
+EProduct.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.mydatabase">
+	<class name="EProduct" table="eproduct">
+		<id name="ID" column="ID">
+			<generator class="increment" />
+		</id>
+		<property name="name" type="string" column="NAME" />
+		<property name="price" type="big_decimal" column="PRICE" />
+		<property name="dateAdded" type="timestamp"
+			column="DATE_ADDED" />
+
+		<list name="colors" lazy="false" cascade="all">
+			<key column="product_id" />
+			<list-index column="idx" />
+			<one-to-many class="com.mydatabase.Color" />
+		</list>
+
+		<set name="os" lazy="false" cascade="all">
+			<key column="product_id" />
+			<one-to-many class="com.mydatabase.OS" />
+		</set>
+
+		<bag name="screenSizes" lazy="false" cascade="all">
+			<key column="product_id"></key>
+			<one-to-many class="com.mydatabase.ScreenSizes" />
+		</bag>
+		<map name = "finance" lazy="false" cascade="all">
+         <key column = "product_id"/>
+         <index column = "ftype" type = "string"/>
+         <one-to-many class="com.mydatabase.Finance"/>
+      </map>
+
+
+	</class>
+</hibernate-mapping>
+
+Finance.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.mydatabase">
+    <class name="Finance" table="finance" >
+        <id name="FINANCEID" type="long" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="name" type="string" column="NAME"/>
+        <property name="ftype" type="string" column="FTYPE"/>
+    </class>
+</hibernate-mapping>
+
+ScreenSizes.hbm.xml
+
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.mydatabase">
+    <class name="ScreenSizes" table="screensizes">
+        <id name="SCREENID" type="long" column="ID">
+            <generator class="identity"/>
+        </id>
+        <property name="size" type="string" column="SIZE"/>
+    </class>
+</hibernate-mapping>
+
+HibernateUtil.java
+
+package com.simpli;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.*;
+import org.hibernate.boot.registry.*;
+public class HibernateUtil {
+	private static final SessionFactory sessionFactory;
+	static {
+		try {
+			StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+					.configure("hibernate.cfg.xml").build();
+			Metadata metaData = new MetadataSources(standardRegistry).getMetadataBuilder().build();
+			sessionFactory = metaData.getSessionFactoryBuilder().build();
+		} catch (Throwable th) {
+			throw new ExceptionInInitializerError(th);
+		}
+	}
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+}
+
+ProductDetailsServlet.java
+
+package com.simpli;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.*;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.*;
+
+import com.mydatabase.*;
+
+
+/**
+ * Servlet implementation class ProductDetailsServlet
+ */
+@WebServlet("/product-details")
+public class ProductDetailsServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ProductDetailsServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter out = response.getWriter();
+		out.println("<html><body>");
+
+		SessionFactory factory = HibernateUtil.getSessionFactory();
+		Session session = factory.openSession();
+
+		// STEP 3 Query the DB and get the data
+		List<EProduct> eproducts = session.createQuery("from EProduct").list();
+
+		out.println(
+				"<table border=1><th>ID<th>NAME<th>PRICE<th>DATE_ADDED<th>COLORS<th>OS<th>SCREENSIZES<th>FINANCE</th>");
+
+		for (EProduct prod : eproducts) {
+			out.println("<tr>" + "<td>" + prod.getID() + "<td>" + prod.getName() + "<td>" + prod.getPrice() + "<td>"
+					+ prod.getDateAdded());
+// Display the colors the product is available in
+			List<Color> colors = prod.getColors();
+			out.println("<td>");
+			for (Color color : colors)
+				out.println(color.getName());
+
+			// Display the OS the product is available in
+			Set<OS> Oses = prod.getOs();
+			out.println("<td>");
+			for (OS os : Oses)
+				out.println(os.getName());
+
+			// Display the Screen Sizes the product is available in
+			Collection<ScreenSizes> screenSizes = prod.getScreenSizes();
+			out.println("<td>");
+			for (ScreenSizes ss : screenSizes)
+				out.println(ss.getSize());
+			
+			Map finances = prod.getFinance();
+			out.println("<td>");
+            if (finances.get("CREDITCARD") != null) {
+                   Finance f = (Finance) finances .get("CREDITCARD");
+                   out.println(f.getName() + " &nbsp;");
+            }
+            if (finances .get("BANK") != null) {
+                   Finance f = (Finance) finances .get("BANK");
+                   out.println(f.getName() + " &nbsp;");
+            }
+
+		}
+		out.println("</table>");
+
+		session.close();
+		out.println("</body></html>");
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}
+
+
+
+OUTPUT:
+
+
+ID	NAME	PRICE	DATE_ADDED	COLORS	OS	SCREENSIZES	FINANCE
+1	Fan	4000.00	2023-05-29 05:36:23.0	Red Silver	Windows 10	12 in	EMI on Citibank Card   20% finance from ICICI  
+2	AC	30000.00	2023-05-29 05:36:23.0	Gray White	FreeDOS Windows 10 RedHat Linux	14.5 in 14.9 in	40% finance from SBI  
+3	Cooler	4000.00	2023-05-29 05:36:23.0	Maroon	Windows 10	15.5 in	60% finance from ICICI  
+4	MAC PC 2	3.00	2023-05-29 05:55:53.0				
+5	hp	80000.00	2023-05-29 06:12:59.0				
+6	HP Laptop ABC	12000.00	2023-05-29 06:28:18.0				
+7	DELL PC ABC	19000.00	2023-05-29 06:28:18.0				
+8	Samsung Laptop PQR	22000.00	2023-05-29 06:28:18.0				
+9	Phillips Mixer	2000.60	2023-05-29 06:36:01.0				
+10	Phillips Mixer	2000.60	2023-05-29 06:55:19.0				
+11	acer	10000.90	2023-05-29 06:58:43.0				
+12	lenovo	40000.08	2023-05-30 12:43:46.0				
+13	lenovo	40000.08	2023-05-30 12:45:24.0				
+14	lenovo	80000.00	2023-05-30 13:41:49.0				

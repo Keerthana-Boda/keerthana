@@ -6,18 +6,16 @@ This section will guide you to:
 ● Create an HTML page to call a servlet
 ● Create a servlet that will display data from the tables using Component Mapping
 
-package com.simpli;
+ComponentMappingDemo.java
 
+package com.simpli;
 import java.io.*;
 import java.io.PrintWriter;
 import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-
 import org.hibernate.*;
-
 import com.ecommerce.EProduct;
 import com.ecommerce.ProductParts;
 
@@ -35,7 +33,7 @@ public class ComponentMappingDemo extends HttpServlet {
 	
 		// STEP 3 Query the DB and get the data
 		List<EProduct> eproducts = session.createQuery("from EProduct").list();
-out.println("<table border=1>");
+		out.println("<table border=1>");
 		
 		for (EProduct prod : eproducts) {
 			out.println("<tr>" + "<td>" + prod.getID() + "<td>" + prod.getName() + "<td>" + prod.getPrice() + "<td>"
@@ -55,6 +53,7 @@ out.println("<table border=1>");
 
 }
 
+Database
 use ecommerce;
 DROP TABLE IF EXISTS `eproduct`;
 CREATE TABLE `eproduct` (
@@ -69,7 +68,7 @@ CREATE TABLE `eproduct` (
 );
 
 INSERT INTO `eproduct` VALUES (1,'HP Laptop ABC',21900.00,'2019-06-04 07:18:57','2 Gb HDD','AMD Phenom','4 Gb'),(2,'Acer Laptop ABC',23300.00,'2019-06-04 07:19:07','500 Gb HDD','Core-i7','4 Gb'),(3,'Lenovo Laptop ABC',33322.00,'2019-06-04 07:19:19','1 Tb HDD','Core-i7','8 Gb');
-package com.ecommerce;
+
 
 ProductParts.java
 
@@ -179,7 +178,7 @@ EProduct.hbm.xml
 		<property name="price" type="big_decimal" column="PRICE" />
 		<property name="dateAdded" type="timestamp"
 			column="DATE_ADDED" />
-		<component name="parts" class="com.ecommerce.ProductParts">
+		<component name="parts" class="com.mydatabase.ProductParts">
 			<property name="hdd" column="parts_hdd" type="string" />
 			<property name="cpu" column="parts_cpu" type="string" />
 			<property name="ram" column="parts_ram" type="string" />
@@ -198,7 +197,7 @@ hibernate.cfg.xml
   <session-factory>
     <!-- Database connection settings -->
     <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-    <property name="connection.url">jdbc:mysql://localhost:3306/ecommerce</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/mydatabase</property>
     <property name="connection.username">root</property>
     <property name="connection.password">Simplilearn</property>   
   </session-factory>
