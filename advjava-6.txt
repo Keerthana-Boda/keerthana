@@ -140,3 +140,8 @@ Database Operations
 
 Inserted values of database records
 Updated values of database records
+
+
+https://lms.simplilearn.com/nps/session/64744f459983df70812b0a37/1686022200000/97650336001/zoom
+
+https://github.com/awtraining1/sl/tree/main/PHASE3/morning/ecommerce

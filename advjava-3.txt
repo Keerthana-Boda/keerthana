@@ -171,3 +171,6 @@ JDBC Statement, Query Demo here
 2, DELL PC ABC, 19000.0, 2023-05-26 11:40:37
 3, Samsung Laptop PQR, 22000.0, 2023-05-26 11:40:37
 Added 1 row
+
+
+
