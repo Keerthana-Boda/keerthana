@@ -1,0 +1,124 @@
+					Displaying User Feedback 
+
+data.sql
+
+create table form
+(
+id int not null auto_increment, 
+name varchar(255) not null, 
+age int, 
+feedback varchar(255) not null, 
+primary key(id)
+);
+
+insert into form(name,age,feedback)values('Alexa',20,'Good');
+insert into form(name,age,feedback)values('Siri',23,'Average');
+insert into form(name,age,feedback)values('Bobby',24,'Excellent');
+
+FeedbackJdbcDao.java
+
+package com.simpli.jdbc;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import com.simpli.entity.Form;
+@Repository
+public class FeedbackJdbcDao 
+{	
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	public List<Form> findAll()
+	{
+		return jdbcTemplate.query("select * from form", new BeanPropertyRowMapper<Form>(Form.class));
+	}
+}
+
+
+SimpliApplication.java
+
+package com.simpli;
+import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import com.simpli.jdbc.FeedbackJdbcDao;
+@SpringBootApplication
+public class SimpliApplication implements CommandLineRunner 
+{
+	private org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+	@Autowired
+	FeedbackJdbcDao dao;
+	public static void main(String[] args) 
+	{
+		SpringApplication.run(SimpliApplication.class, args);
+	}
+	@Override
+	public void run(String... args) throws Exception 
+	{
+		logger.info("All users -> {}", dao.findAll());	
+	}
+}
+
+
+Form.java
+
+package com.simpli.entity;
+public class Form 
+{	
+	private int id;
+	private String name;
+	private int age;
+	private String feedback;
+	public Form() {}
+	public Form(int id, String name, int age, String feedback) 
+	{
+		super();
+		this.id = id;
+		this.name = name;
+		this.age = age;
+		this.feedback = feedback;
+	}
+	public int getId() 
+	{
+		return id;
+	}
+	public void setId(int id) 
+	{
+		this.id = id;
+	}
+	public String getName() 
+	{
+		return name;
+	}
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+	public int getAge() 
+	{
+		return age;
+	}
+	public void setAge(int age) 
+	{
+		this.age = age;
+	}
+	public String getFeedback() 
+	{
+		return feedback;
+	}
+	public void setFeedback(String feedback) 
+	{
+		this.feedback = feedback;
+	}
+	@Override
+	public String toString() 
+	{
+		return "\nForm [id=" + id + ", name=" + name + ", age=" + age + ", feedback=" + feedback + "]";
+	}
+}
+

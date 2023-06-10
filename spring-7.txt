@@ -1,0 +1,59 @@
+			HTTPS for Spring Boot ..
+DESCRIPTION
+This section will guide you to:
+     ● Set up Eclipse to work with Spring Boot using the STS plugin
+     ● Create a self-signed SSL certificate key for localhost
+     ● Create a Controller that will run the site in SSL in the browser
+	 
+Using keytool utility to create a self-signed SSL certificate key
+●	In the terminal window of your computer, type the following command:
+	keytool -genkey -alias selfsigned_localhost_sslserver -keyalg RSA -keysize 2048 -validity 700 -keypass changeit -storepass changeit -keystore ssl-server.jks
+●	For first and last name, enter localhost
+●	For organizational unit, enter Website
+●	For name of your organization, enter Website
+●	For city or locality, enter New York
+●	For State or Province, enter NY
+●	For two-letter country code, enter US
+●	For final confirmation, enter yes
+●	This will create a file called ssl-server.jks in your current working directory
+●	Copy this file into the src->main->resources folder
+
+
+
+
+MainController.java
+
+package com.ecommerce.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+@Controller
+public class MainController 
+{
+	@Autowired
+	private ProductRepository repository;         
+    @RequestMapping("/")
+	@ResponseBody
+    public String index() 
+	{
+		return “This is running under SSL”;
+    }          
+}
+
+
+applications.properties
+
+server.port=8443
+server.ssl.key-alias=selfsigned_localhost_sslserver
+server.ssl.key-password=changeit
+server.ssl.key-store=classpath:ssl-server.jks
+server.ssl.key-store-provider=SUN
+server.ssl.key-store-type=JKS
+
+
