@@ -1,0 +1,95 @@
+				Handling User Authentication ..
+DESCRIPTION
+Project objective:
+Set up a standalone project to do unit testing of the user authentication class which is used in the main web application. The objective is to create a JUnit class that will test all aspects of the authentication class.
+
+pom.xml
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>UsingJUnit</groupId>
+  <artifactId>UsingJUnit</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.4.2</version>
+        </dependency>       
+         <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>1.2.0</version>
+    </dependency>   
+  </dependencies>
+</project>
+
+
+UserAuthentication.java
+
+package com.simpli;
+import java.util.*;
+public class UserAuthentication 
+{
+	public String userName(String uname) 
+	{		
+		uname="Keerthana";	
+		if(uname.equals("Keerthana")) 
+		{
+	         return uname;
+        }
+        else
+        {
+            return "UnSuccessful Authentication";
+        }
+	}
+	public String password(String pwd) 
+	{		
+		String uname="Keerthana";
+		pwd = "1234";
+		if (uname.equals("Keerthana") && pwd.equals("1234")) 
+		{     
+	         return pwd;
+        }
+        else
+        { 
+            return "UnSuccessful Authentication";
+        }
+	}
+}
+
+
+UserAuthenticationTest.java
+
+package com.simpli;
+import static org.junit.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+public class UserAuthenticationTest 
+{
+	UserAuthentication u = new UserAuthentication();	
+	@Before
+	public void before() 
+	{
+		System.out.println("Before Testing User Authentication");
+	}	
+	@Test
+	@DisplayName("User Authentication")
+	public void userName() 
+	{
+		String uname = u.userName("Keerthana");
+        assertEquals("Keerthana",uname);
+	}
+	public void userPwd() 
+	{
+		String pwd = u.password("1234");
+        assertEquals("1234",pwd);  
+	}
+	@After
+	public void after() 
+	{
+		System.out.println("Authentication Successful");
+	}
+}
