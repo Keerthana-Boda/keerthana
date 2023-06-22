@@ -1,0 +1,93 @@
+					Implement Spring Security with Authentication ..
+DESCRIPTION
+Project objective: 
+As a developer, build Authentication Provider in Spring Security.
+
+MainController.java
+
+package com.center;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+@Controller
+public class MainController 
+{
+	@GetMapping("/home1")
+	public String login() {
+		return "home1";
+	}	
+	@GetMapping("/seller-home")
+	public String seller() {
+		return "seller/seller";
+	}
+}
+
+
+WebSecurityConfig.java
+
+package com.center;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+@EnableWebSecurity
+@Configuration
+public class WebSecurityConfig 
+{	
+	/*protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+          .requestMatchers("/seller/**")
+          .authenticated()
+          .requestMatchers("/home1/**")
+          .permitAll()
+          .requestMatchers("/")
+          .permitAll()
+          .and()
+          .httpBasic();
+    }*/
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		auth.inMemoryAuthentication()
+		.withUser("user").password(encoder.encode("password")).roles("USER")
+		.and()
+		.withUser("user1").password(encoder.encode("password1")).roles("USER")
+		.and()
+		.withUser("user2").password(encoder.encode("password2")).roles("USER")
+		.and()
+		.withUser("admin1").password(encoder.encode("adminpassword1")).roles("ADMIN");
+	}
+}
+
+SpringBootSecurityDemoApplication.java
+
+package com.center;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+@SpringBootApplication
+public class SpringBootSecurityDemoApplication 
+{
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootSecurityDemoApplication.class, args);
+	}
+}
+
+
+seller.jsp
+
+<h1>Seller Home Page</h1>
+
+home1.jsp
+
+<h1><b>Home Page</b></h1>
+
+index.jsp
+
+<h3><b>Spring Security Demo</b></h3>
+
+
+application.properties
+
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp

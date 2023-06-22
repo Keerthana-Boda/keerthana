@@ -1,0 +1,821 @@
+							Vaccination Center
+Course-end Project 1
+DESCRIPTION
+Build an application to manage vaccination centers working on distributing vaccines to all citizens of India
+
+pom.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.0</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.ecommerce</groupId>
+	<artifactId>spring-boot-vaccination-center</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-boot-vaccination-center</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<!--
+		https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		
+		<!-- JSP support in Spring -->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+
+
+SpringBootVaccinationCenterApplication.java
+
+package com.center;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+@ComponentScan({"com.center.entity","com.center.controllers","com.center.repositries"})
+@SpringBootApplication
+public class SpringBootVaccinationCenterApplication 
+{
+	public static void main(String[] args) 
+	{
+		SpringApplication.run(SpringBootVaccinationCenterApplication.class, args);
+	}
+}
+
+
+Center.java
+
+package com.center.entity;
+import java.util.ArrayList;
+import java.util.List;
+import jakarta.persistence.*;
+@Entity
+@Table(name="center")
+public class Center 
+{	
+	@Id
+	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
+	private String name;
+	private String city;
+	public Center() {}
+	public long getID() {
+		return ID;
+	}
+	public void setID(long iD) {
+		ID = iD;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+}
+
+
+Citizens.java
+
+package com.center.entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+@Entity
+public class Citizens 
+{	
+	@Id
+	@Column(name="cid")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
+	private String name;
+	private String city;
+	private int no_of_doses;
+	private String status;
+	private String vaccination_center;
+	public Citizens() {}
+	public long getID() {
+		return ID;
+	}
+	public void setID(long iD) {
+		ID = iD;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public int getNo_of_doses() {
+		return no_of_doses;
+	}
+	public void setNo_of_doses(int no_of_doses) {
+		this.no_of_doses = no_of_doses;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getVaccination_center() {
+		return vaccination_center;
+	}
+	public void setVaccination_center(String vaccination_center) {
+		this.vaccination_center = vaccination_center;
+	}	
+}
+
+
+Users.java
+
+package com.center.entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+@Entity
+@Table(name="users")
+public class Users 
+{
+	@Id
+	@Column(name="uid")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
+	private String name;
+	private String password;
+	private String email;
+	public Users() {}
+	public long getID() {
+		return ID;
+	}
+	public void setID(long iD) {
+		ID = iD;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}	
+}
+
+
+MainController.java
+
+package com.center.controllers;
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import com.center.repositries.CenterRepo;
+import com.center.repositries.CitizenRepo;
+import com.center.entity.Center;
+import com.center.entity.Citizens;
+@Controller
+public class MainController 
+{	
+	@Autowired
+	CenterRepo centerRepo;	
+	@Autowired
+	CitizenRepo citizenRepo;
+	@GetMapping("/vaccinationcenter")
+	public String vaccine(Model model) 
+	{	
+		List<Center> centers = centerRepo.findAll();
+		model.addAttribute("centerList", centers);
+		return "vaccinationcenter";
+	}
+	@GetMapping("/list-citizen")
+	public String citizenList(Model model)
+	{
+		List<Citizens> citizens = citizenRepo.findAll();
+		model.addAttribute("citizenList", citizens);
+		return "list-citizen";
+	}
+	@GetMapping("/new-center")
+	public String showNewCenterForm(Model model) {
+		Center center = new Center();
+		model.addAttribute("center", center);
+		return "new-center";
+	}
+	@PostMapping("/new-center")
+	public String addNewCenter(@ModelAttribute("center") Center center) {
+		centerRepo.save(center);
+		return "vaccinationcenter";
+	}
+	@GetMapping("/new-citizen")
+	public String showNewCitizens(Model model) {
+		Citizens citizens = new Citizens();
+		model.addAttribute("citizens",citizens);
+		return "new-citizen";
+	}
+	@PostMapping("/new-citizen")
+	public String addNewCitizen(@ModelAttribute("citizens") Citizens citizens) {
+		citizenRepo.save(citizens);
+		return "new-citizen";
+	}
+	@GetMapping("/edit-center")
+	public String showEditCenterForm(@RequestParam int id, Model model) {
+		Optional<Center> ctr = centerRepo.findById(id);
+		if(ctr.isPresent()) {
+			Center center = ctr.get();
+			model.addAttribute("center",center);
+			return "edit-center";
+		}
+		else {
+			model.addAttribute("id",id);
+			return "vaccinationcenter";
+		}
+	}
+	@PostMapping("/edit-center")
+	public String editCenter(@ModelAttribute("center") Center center) {
+		centerRepo.save(center);
+		return "vaccinationcenter";
+	}
+	@GetMapping("/edit-citizen")
+	public String showEditCitizens(@RequestParam int id, Model model) {
+		Optional<Citizens> cit = citizenRepo.findById(id);
+		if(cit.isPresent()) {
+			Citizens citizens = cit.get();
+			model.addAttribute("citizens",citizens);
+			return "edit-citizen";
+		}
+		else {
+			model.addAttribute("id",id);
+			return "list-citizen";
+		}
+	}
+	@PostMapping("/edit-citizen")
+	public String editCitizen(@ModelAttribute("citizen") Citizens citizens) {
+		citizenRepo.save(citizens);
+		return "list-citizen";
+	}
+	@GetMapping("/delete-center")
+	public String deleteCenter(@RequestParam int id, Model model) {
+		Optional<Center> ctr = centerRepo.findById(id);
+		if(ctr.isPresent()) {
+			centerRepo.deleteById(id);
+			model.addAttribute("id",id);
+			return "vaccinationcenter";
+		}
+		else {
+			model.addAttribute("id",id);
+			return "vaccinationcenter";
+		}
+	}
+	@GetMapping("/delete-citizen")
+	public String deleteCitizen(@RequestParam int id, Model model) {
+		Optional<Citizens> cit = citizenRepo.findById(id);
+		if(cit.isPresent()) {
+			citizenRepo.deleteById(id);
+			model.addAttribute("id",id);
+			return "list-citizen";
+		}
+		else {
+			model.addAttribute("id",id);
+			return "list-citizen";
+		}
+	}	
+	@GetMapping(path = "/view-center")
+	public String viewCenter(@RequestParam int id, Model model) {
+		Optional<Center> ctr = centerRepo.findById(id);
+		if(ctr.isPresent()) {
+			Center center = ctr.get();
+			model.addAttribute("center",center);
+			return "view-center";
+		}
+		else {
+			return "vaccinationcenter";
+		}	
+	}	
+	@GetMapping(path = "/view-citizen")
+	public String viewCitizen(@RequestParam int id, Model model) {
+		Optional<Citizens> cit = citizenRepo.findById(id);
+		if(cit.isPresent()) {
+			Citizens citizens = cit.get();
+			model.addAttribute("citizens",citizens);
+			return "view-citizen";
+		}
+		else {
+			return "vaccinationcenter";
+		}	
+	}	
+}
+
+
+UserController.java
+
+package com.center.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import com.center.repositries.UserRepo;
+import com.center.entity.Users;
+@Controller
+public class UserController 
+{
+	@Autowired
+	UserRepo userRepo;
+	@GetMapping("/registration")
+	public String showNewUser(Model model) {
+		Users user = new Users();
+		model.addAttribute("user", user);
+		return "registration";
+	}	
+	@PostMapping("/registration")
+	public String addNewUser(@ModelAttribute("user") Users user) {
+		userRepo.save(user);
+		return "vaccinationcenter";
+	}
+}
+
+
+CenterRepo
+
+package com.center.repositries;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import com.center.entity.Center;
+@Repository
+public interface CenterRepo extends JpaRepository<Center, Integer> 
+{
+	List<Center> findAllByName(String name);
+	List<Center> findAllByCity(String city);
+}
+
+
+CitizenRepo
+
+package com.center.repositries;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.center.entity.Citizens;
+public interface CitizenRepo extends JpaRepository<Citizens, Integer> 
+{
+	List<Citizens> findAllByName(String name);
+	List<Citizens> findAllByCity(String city);
+}
+
+
+UserRepo
+
+package com.center.repositries;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.center.entity.Users;
+public interface UserRepo extends JpaRepository<Users, Integer> 
+{
+	List<Users> findByName(String name);
+}
+
+
+index.jsp
+
+<h1>Login</h1>
+<br>
+Username <input type = "text" name = "name">
+<br>
+Password <input type = "text" name = "pwd">
+<br>
+<button><a href = "vaccinationcenter">Login</a></button>
+<button><a href = "registration"> Registration </a></button>
+
+edit-center.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>User Registration Form</title>
+</head>
+<body>
+	<div align="center">
+			<h3>Center Information</h3> 	
+			<table border=1>
+			<tr><th colspan=2> <b>Edit ${center.name}</b></th></tr>
+			<tr>		
+			<form:form action="edit-center" method="post"
+				modelAttribute="center">
+				<form:input path="ID" value="${product.ID}" type="hidden"/>			
+				<th><form:label path="name">Center name:</form:label>
+				<th><form:input path="name" value="${center.name}" />
+				</tr>
+				<tr>
+				<th>
+				<form:label path="city">Center City:</form:label>
+				<th><form:input path="city" value="${center.city}" />
+				</tr>
+				<tr><th colspan=2>
+				<form:button>Submit</form:button>
+				</th></tr>
+			</form:form>
+			</table>
+		</div>
+</body>
+</html>
+
+
+edit-citizen.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>User Registration Form</title>
+</head>
+<body>
+	<div align="center">
+	<h3>Citizen Information</h3> 	
+	<table border=1><tr><th colspan=2>
+			Edit Citizen ${citizen.name} </th></tr>
+			<tr>
+			<form:form action="edit-citizen" method="post"
+				modelAttribute="citizens">
+				<form:input path="ID" value="${product.ID}" type="hidden"/>
+				
+				<th><form:label path="name">Citizen Name:</form:label>
+				<th><form:input path="name" value="${citizen.name}" />
+				</tr>
+				<tr><th>
+				<form:label path="city">Citizen City:</form:label>
+				<th><form:input path="city" value="${citizen.city}" />
+				</tr>
+				<tr><th>
+				<form:label path="no_of_doses">No.Of Doses</form:label>
+				<th><form:input path="no_of_doses" value="${citizen.no_of_doses}" />
+				</tr>
+				<tr><th>
+				<form:label path="status">Citizen Status</form:label>
+				<th><form:input path="status" value="${citizen.status}" />
+				</tr>
+				<tr><th>
+				<form:label path="vaccination_center">Vaccination Center</form:label>
+				<th><form:input path="vaccination_center" value="${citizen.vaccination_center}" />
+				</tr>
+				<tr><th colspan=2>
+				<form:button>Submit</form:button>
+				</th></tr>
+			</form:form>
+		</table>
+		</div>
+</body>
+</html>
+
+list-citizen.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<table style="width:70%" border=1>
+<tr>
+<th><a href = " "> Citizens </a></th>
+<th><a href = "vaccinationcenter"> Vaccination Centers </a></th>
+<th><a href = " "> Log Out </a></th>
+<th><b><u>Welcome,admin</u></b></th>
+</tr>
+</table>
+<br>
+<h1><b>Citizens</b></h1>
+<table border = 1 style = "width:70%">
+<tr> <td colspan=20><button><a href = "new-citizen" >Add New Citizen</a></button></td></tr>
+<tr>
+<th> ID </th>
+<th> Name </th>
+<th> City </th>
+<th> No.Of Doses</th>
+<th>Vaccination Status</th>
+<th>Vaccination Center</th>
+<th> Action </th>
+</tr>
+<c:forEach var="citizen" items="${citizenList}">
+		<tr>
+			<th>${citizen.ID}
+			<th>${citizen.name}
+			<th>${citizen.city}
+			<th>${citizen.no_of_doses}
+			<th>${citizen.status}
+			<th>${citizen.vaccination_center}
+			
+			
+			<th>
+			<button>
+			<a href="view-citizen?id=${citizen.ID}"> View </a></button> &nbsp;
+			<button><a href="edit-citizen?id=${citizen.ID}"> Edit </a></button> &nbsp;
+			<button><a href="delete-citizen?id=${citizen.ID}"> Delete </a></button>
+		<tr>
+	</c:forEach>
+</table>
+
+new-center.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>User Registration Form</title>
+</head>
+<body>
+	<div align="center">
+	<h3>Center Information</h3>
+	<table border=1><tr><th colspan=2><b>Add New Center</b></th></tr>
+	<tr>
+		<form:form action="new-center" method = "post" modelAttribute="center">
+			<th><form:label path="name">Center Name</form:label>
+			<th><form:input path="name" />
+			</tr><tr><th>
+			<form:label path="city">Center City</form:label>
+			<th><form:input path="city" />
+			</tr><tr><th colspan=2>
+			<form:button>Submit</form:button>
+			</th></tr>
+		</form:form>
+		</table>
+		</div>
+</body>
+</html>
+
+
+new-citizen.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>User Registration Form</title>
+</head>
+<body>
+<center>
+	<h3>Citizen Information</h3>
+	<table border=1><tr><th colspan=2><b>Add New Citizen</b></th></tr>
+	<tr>
+		<form:form action="new-citizen" method = "post" modelAttribute="citizens">
+			<th><form:label path="name">Citizen Name</form:label>
+			<th><form:input path="name" />
+			</th></tr><tr><th>
+			<form:label path="city">Citizen City</form:label>
+			<th><form:input path="city" />
+			</tr><tr><th>
+			<form:label path="vaccination_center">Citizen Center</form:label>
+			<th><form:input path="vaccination_center" />
+			</tr><tr><th colspan=2>
+			<form:button>Submit</form:button>
+			</th></tr>
+		</form:form>
+		</table>
+		</center>
+</body>
+</html>
+
+registration.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<title>User Registration Form</title>
+</head>
+<body>
+	<div align="center">
+	<table border=1>
+	<tr><th colspan=2><b>Registration</b></th></tr>
+		<form:form action="registration" method = "post" modelAttribute="user">
+			<tr><th><form:label path="name">User Name</form:label>
+			<th><form:input path="name" />
+			</tr>
+			<tr><th>
+			<form:label path="email">Email</form:label>
+			<th><form:input path="email" />
+			</tr>
+			<tr><th>
+			<form:label path="password">Password</form:label>
+			<th><form:input path="password" />
+			</tr>
+			<tr><th colspan = 2>
+			<form:button>Register</form:button></th></tr>
+		</form:form>
+		</table>
+</div>
+</body>
+
+
+vaccinationcenter.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<table style="width:70%" border=1>
+<tr>
+<th><a href = "list-citizen"> Citizens </a></th>
+<th><a href = "vaccinationcenter"> Vaccination Centers </a></th>
+<th><a href = " "> Log Out </a></th>
+<th><b><u>Welcome,admin</u></b></th>
+</tr>
+</table>
+<br>
+<h1><b>Centers</b></h1>
+<table border = 1 style = "width:70%">
+<tr> <td colspan=10><button><a href = "new-center" >Add New Center</a></button></td></tr>
+<tr>
+<th> ID </th>
+<th> Name </th>
+<th> City </th>
+<th> Action </th>
+</tr>
+<c:forEach var="center" items="${centerList}">
+		<tr>
+			<th>${center.ID}
+			<th>${center.name}
+			<th>${center.city}		
+			<th>
+			<button>
+			<a href="view-center?id=${center.ID}"> View </a></button> &nbsp;
+			<button><a href="edit-center?id=${center.ID}"> Edit </a></button> &nbsp;
+			<button><a href="delete-center?id=${center.ID}"> Delete </a></button>
+		<tr>
+	</c:forEach>
+</table>
+
+view-center.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<table style="width:70%" border=1>
+<tr>
+<th><a href = "list-citizen"> Citizens </a></th>
+<th><a href = "vaccinationcenter"> Vaccination Centers </a></th>
+<th><a href = " "> Log Out </a></th>
+<th><b><u>Welcome,admin</u></b></th>
+</tr>
+</table>
+<br><br>
+<center>
+<h3>Center Information</h3>
+<table border=1>
+<tr><th colspan=2>
+<b> 	${center.name} </b></th></tr>	
+		<tr>
+			<form:form action="view-center" method="post"
+				modelAttribute="center">
+				<th><form:label path="ID">ID</form:label>
+				<th><form:input path="ID" value="${center.ID}"/>
+				</tr><tr><th>
+				<form:label path="city">Center City:</form:label>
+				<th><form:input path="city" value="${center.city}" />
+				</tr>
+			</form:form>
+			</table>
+			</center>
+			
+			
+view-citizen.jsp
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<center>
+<h3>Citizen Information</h3>
+<table border=1>
+<tr><th colspan=2>
+<b> 	${citizens.name} </b></th></tr>	
+		<tr>
+			<form:form action="view-citizen" method="post"
+				modelAttribute="citizens">
+				<th><form:label path="ID">ID</form:label>
+				<th><form:input path="ID" value="${citizen.ID}"/>
+				</tr><tr><th>				
+				<form:label path="city">City</form:label><th>
+				<form:input path="city" value="${citizen.city}" />
+				</tr><tr><th>
+				<form:label path="no_of_doses">Number Of Vaccines</form:label><th>
+				<form:input path="no_of_doses" value="${citizen.no_of_doses}" />
+				</tr><tr><th>
+				<form:label path="status">Vaccination Status</form:label><th>
+				<form:input path="status" value="${citizen.status}" />
+				</tr><tr><th>
+				<form:label path="vaccination_center">Allocated Vaccination Center</form:label><th>
+				<form:input path="vaccination_center" value="${citizen.vaccination_center}" />
+				</th></tr>			
+			</form:form>
+			</table>		
+			</center>
+			
+			
+application.properties
+
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+# Database
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/vaccination
+spring.datasource.username=root
+spring.datasource.password=Keerthana@02
+#spring.jpa.show-sql=true
+#spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
