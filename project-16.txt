@@ -1,0 +1,37 @@
+				Team Budget Planner
+DESCRIPTION
+Project objective: 
+As a developer, write a program using JavaScript to decide the budget of a specific team.
+
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+class Deal {
+  constructor(name, price) {
+    this.name = name;
+    this.price = price;
+  }
+  static total(p,q,r){
+    return p.price+ q.price+ r.price;
+  }
+}
+const deal1 = new Deal("Laptop", 40000);
+const deal2 = new Deal("Television", 5000);
+const deal3 = new Deal("Computer", 25000);
+console.log("Vendor Name is : "+deal1.name+"\nPrice : "+deal1.price);
+console.log("Vendor Name is : "+deal2.name+"\nPrice : "+deal2.price);
+console.log("Vendor Name is : "+deal3.name+"\nPrice : "+deal3.price);
+
+console.log("Total Deals Price : "+ Deal.total(deal1,deal2,deal3));
+
+</script>
+<table border = 1>
+    <tr><th>Vendor Name</th><th>Price</th></tr>
+    <tr><th>Laptop</th><th>40000</th></tr>
+    <tr><th>Television</th><th>5000</th></tr>
+    <tr><th>Computer</th><th>25000</th></tr>
+    <tr><th>TOTAL PRICE</th><th>70000</th></tr>
+</table>
+</body>
+</html>

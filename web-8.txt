@@ -1,0 +1,51 @@
+				Maps and Classes..
+DESCRIPTION
+This section will guide you to: 
+Create a JavaScript project in your IDE 
+Write a program in JavaScript to implement functions
+
+<html>
+<body>
+<script>
+	var map1 = new Map(); 
+map1.set("first name", "Robb"); 
+map1.set("last name", "Stark"); 
+map1.set("friend 1","Bran") 
+    .set("friend 2","Arya"); 
+console.log(map1); 
+console.log("map1 has friend 3 ? " + map1.has("friend 3")); 
+console.log("get value for key = friend 3 - "+ map1.get("friend 3")); 
+console.log("delete element with key = friend 2 - " + map1.delete("friend 2")); 
+map1.clear(); 
+console.log(map1);
+class Employee
+{
+    constructor(id,name)
+    {
+      this.id=id;
+      this.name=name;
+    }
+    detail()
+    {
+  console.log(this.id+" "+this.name);
+    }
+  }
+//passing object to a variable 
+var e1=new Employee(101,"Michael");
+var e2=new Employee(102,"Bob");
+e1.detail(); 
+e2.detail();
+</script>
+</body>
+</html>
+
+
+OUTPUT:
+
+first.html:9  Map(4) {'first name' => 'Robb', 'last name' => 'Stark', 'friend 1' => 'Bran', 'friend 2' => 'Arya'}
+first.html:10 map1 has friend 3 ? false
+first.html:11 get value for key = friend 3 - undefined
+first.html:12 delete element with key = friend 2 - true
+first.html:14 Map(0) {size: 0}
+first.html:24 101 Michael
+first.html:24 102 Bob

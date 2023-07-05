@@ -1,0 +1,59 @@
+				IIFEs, Callbacks, and Closures..
+DESCRIPTION
+This section will guide you to: 
+Create a JavaScript project in your IDE 
+Write a program in JavaScript to create IIFEs, callbacks, and closures
+ 
+ 
+ <html>
+<body>
+<script>
+	const empId = (function() {
+    let count = 0;
+    return function() {
+      ++count;
+      return `emp${count}`;
+    };
+  })();
+  console.log("New Emplyee IDs are listed here");
+  console.log("Alex: "+empId()); 
+  console.log("Dexter: "+empId()); 
+  console.log("Annie: "+empId());
+  //Callbacks
+  console.log("\n"); //to start the output from the neext line
+  function fullName(firstName, lastName, callback){
+    console.log("My name is " + firstName + " " + lastName);
+    callback(lastName);
+  }
+  var greeting = function(ln){
+    console.log('Welcome ' + ln);
+  };
+  fullName("Alex", "Wilson", greeting);
+  console.log("\n");
+  fullName("Dexter", "Johnson", greeting);
+  console.log("\n");
+  fullName("Annie", "Butler", greeting);
+</script>
+</body>
+</html>
+
+
+ 
+ OUTPUT:
+ 
+first.html:11 New Emplyee IDs are listed here
+first.html:12 Alex: emp1
+first.html:13 Dexter: emp2
+first.html:14 Annie: emp3
+first.html:16 
+
+first.html:18 My name is Alex Wilson
+first.html:22 Welcome Wilson
+first.html:25 
+
+first.html:18 My name is Dexter Johnson
+first.html:22 Welcome Johnson
+first.html:27 
+
+first.html:18 My name is Annie Butler
+first.html:22 Welcome Butler

@@ -1,0 +1,52 @@
+			Functions and Prototyping..
+DESCRIPTION
+This section will guide you to: 
+Create a JavaScript project in your IDE 
+Write a program in JavaScript to create functions and prototypes
+
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+function Employee(name, designation, yearOfBirth){   
+    this.name= name; 
+    this.designation= designation; 
+    this.yearOfBirth= yearOfBirth; 
+} 
+
+// creating calculateAge() method to the Prototype property 
+Employee.prototype.calculateAge= function(){  
+    console.log('The current age is: '+(2019- this.yearOfBirth)); 
+} 
+console.log(Employee.prototype); 
+  
+
+// creating Objects
+let Emp1= new Employee('Alex', 'Junior Tester', 1995);  
+console.log(Emp1) ;
+Emp1.calculateAge(); 
+
+let Emp2= new Employee('Dexter', 'Senior Software Developer', 1990); 
+console.log(Emp2) 
+Emp2.calculateAge();
+
+let Emp3= new Employee('Annie', 'Junior HR', 1998); 
+console.log(Emp3) 
+Emp3.calculateAge();
+
+
+</script>
+
+</body>
+</html>
+
+
+OUTPUT:
+
+{calculateAge: ƒ, constructor: ƒ}
+first.html:20 Employee {name: 'Alex', designation: 'Junior Tester', yearOfBirth: 1995}
+first.html:13 The current age is: 24
+first.html:24 Employee {name: 'Dexter', designation: 'Senior Software Developer', yearOfBirth: 1990}
+first.html:13 The current age is: 29
+first.html:28 Employee {name: 'Annie', designation: 'Junior HR', yearOfBirth: 1998}
+first.html:13 The current age is: 21
