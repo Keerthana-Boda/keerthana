@@ -1,0 +1,281 @@
+				myPortfolio: Easy Way to Create Your Amazing Portfolio..
+DESCRIPTION
+Project Objective:
+As a Full Stack Developer, you have to create a frontend for the myPortfolio application. 
+
+app.component.html:
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light ">
+  <ul class="nav navbar-nav float-left" routerLinkActive="active">
+  <li class="nav-item"> <img class="ima" src="https://www.google.com/search?q=flowers&tbm=isch&source=iu&ictx=1&vet=1&fir=kOq_xpVV1MhvsM%252CZih9vqAzJOmeTM%252C_%253BaFDD-W08Psf5UM%252Cpxn6KoNeXNKDvM%252C_%253BhPkStLsNjw6jTM%252CMqJ0o7Xjxwc15M%252C_%253BsoXEg2rP6jv38M%252Cg9wXF9Zj4K-jBM%252C_%253BExvh385xTHlxzM%252CbFYVKDdu_OGz8M%252C_&usg=AI4_-kSaAqghJd3d840QCdaELpjvT4O8pQ&sa=X&ved=2ahUKEwirx-67-4iAAxXaTmwGHZaZAv0Q_h16BAhEEAE#imgrc=kOq_xpVV1MhvsM" alt="image"><a class="btn"routerLink="homepage">Home</a></li>
+  <li class="nav-item"><a class=" btn" routerLink="/signin" style="margin:5px;">Sign In</a></li>
+  <li class="nav-item"><a class="btn" routerLink="/signup" style="margin:5px">Sign Up</a> </li>
+  <li class="nav-item"><a class="btn" routerLink="/contactus" style="margin:5px">Contact us</a> </li>
+  <li class="nav-item"><a class="btn" routerLink="/aboutus" style="margin:5px">About</a> </li>
+  </ul>
+  </nav>
+  <div class="container">
+  <router-outlet></router-outlet>
+  </div>
+  </div>
+ 
+
+app.component.css:
+
+
+.fill {
+    height: 75% !important;
+   width: 100%;
+   position: absolute;
+   top: 0;
+   left: 0;
+   overflow:hidden;
+   background-size: cover;
+   background-position: center center;
+   }
+   .ima{
+    height: 25px;
+    width: 25px;
+   
+    }
+   .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+   }
+   .navbar {
+    background-color: #f8f9fa;
+   }
+   .navbar img {
+    height: 30px;
+    margin-right: 10px;
+   }
+   .navbar ul.navbar-nav {
+    margin-left: auto;
+   }
+   .navbar ul.navbar-nav li {
+    display: inline-block;
+    margin-right: 10px;
+   }
+   .navbar ul.navbar-nav li a {
+    text-decoration: none;
+    color: #000;
+    padding: 5px 10px;
+    border-radius: 5px;
+   }
+   .navbar ul.navbar-nav li a:hover {
+    background-color: #f8f9fa;
+    color: #007bff;
+   }
+   .router-outlet {
+    margin-top: 20px;
+   }
+   
+
+app.component.ts:
+
+
+import { Component } from '@angular/core';
+@Component({
+ selector: 'app-root',
+ templateUrl: './app.component.html',
+ styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+ title = 'homepage';
+}
+
+app.routing.module.ts:
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { SignupComponent } from './signup/signup.component';
+import { SigninComponent } from './signin/signin.component';
+import { ContactusComponent } from './contactus/contactus.component';
+import { AboutComponent } from './about/about.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { AppComponent } from './app.component';
+
+
+const routes: Routes = [
+  { path: 'signup', component: SignupComponent },
+  { path: 'signin', component: SigninComponent},
+  { path: 'contactus', component: ContactusComponent},
+  { path: 'about', component: AboutComponent},
+  { path: 'homepage', component: HomepageComponent},
+  { path: 'home', component: AppComponent},
+  
+];
+
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+
+
+homepage.component.html:
+
+
+<div class="container" style="padding: 10px;align-self: center">
+    <div class="jumbotron" style="background-image:
+   url(https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?w=2000);margin-top: 380px; padding: 300px;-imageresolution: inherit">
+   
+    <h1 style="color: black;margin-top: 30px;text-align: center">Hello There!</h1>
+    <h2 style="color: black;text-align: center">Welcome to myPortFolio</h2>
+    <p style="color: black;(255, 240, 240);text-align: center">Easy way to create your amazing
+   portfolio...</p>
+    </div>
+    </div>
+
+
+homepage.component.ts:
+
+
+import { Component } from '@angular/core';
+@Component({
+ selector: 'app-homepage',
+ templateUrl: './homepage.component.html',
+ styleUrls: ['./homepage.component.css']
+})
+export class HomepageComponent {
+}
+
+
+
+signin.component.html:
+<div>
+    <div class="jumbotron" style="margin: 45px">
+    <h2 style="text-align: center;padding-top: 5%">Login</h2>
+    <p style="text-align: center">Enter the registered E-mail address and the
+   password!</p>
+    <form action="">
+    <div class="container">
+    <p style="text-align: center;padding-bottom: 20px">
+    E-mail <input type="text" name="email" placeholder="Confirm email address"email required style="padding-right: 60px;margin-left: 35px" ></p>
+    </div>
+    <div class="container">
+    <p style="text-align: center">
+    Password <input type="text" name="email" placeholder="Password" required
+   style="padding-right: 60px;margin-left: 15px"> <br>
+    <button class="btn btn-primary" style="margin-top: 20px"> Login</button></p>
+    </div>
+    </form>
+    </div>
+    </div>
+   
+
+signin.component.ts:
+import { Component } from '@angular/core';
+@Component({
+ selector: 'app-signin',
+ templateUrl: './signin.component.html',
+ styleUrls: ['./signin.component.css']
+})
+export class SigninComponent {
+}
+
+
+
+signup.component.html:
+
+
+<div>
+    <div class="jumbotron" style="margin: 25px">
+    <h2 style="text-align: center;padding-top: 5%">Register</h2>
+    <p style="text-align: center">Enter the valid E-mail address and the password!</p>
+    <form action="">
+    <div class="container">
+    <p style="text-align: center;padding: 20px">
+    E-mail <input type="text" name="email" placeholder="Email address" email required style="padding-right: 60px;margin-left: 80px"></p>
+    <p style="text-align: center;padding-bottom: 20px">
+    Reconfirm E-mail <input type="text" name="email" placeholder="Confirm email address" email required style="padding-right: 60px;margin-left: 5px" ></p>
+    </div>
+    <div class="container">
+    <p style="text-align: center">
+    Password <input type="text" name="email" placeholder="Password" required
+   style="padding-right: 60px;margin-left: 55px;margin-bottom: 20px"> <br>
+    <button class="btn btn-primary" style="margin-top: 20px"> Register</button></p>
+    </div>
+    </form>
+    </div>
+    </div>
+
+signup.component.ts:
+
+
+import { Component } from '@angular/core';
+@Component({
+ selector: 'app-signup',
+ templateUrl: './signup.component.html',
+ styleUrls: ['./signup.component.css']
+})
+export class SignupComponent {
+}
+
+
+
+contactus.component.html:
+
+
+<section id="contact" class="section">
+    <div class="container">
+    <div class="contact-details">
+    <h3>Contact Information</h3>
+    <p><i class="fas fa-map-marker-alt"></i> Address: 845 Jubliee Street, New Delhi, India</p>
+    <p><i class="fas fa-envelope"></i> Email: home@myPortFolio.com</p>
+    <p><i class="fas fa-phone"></i> Phone: +91 9876543211</p>
+    </div>
+    </div>
+    </section>
+   
+
+
+contactus.component.ts:
+
+
+import { Component } from '@angular/core';
+@Component({
+ selector: 'app-contactus',
+ templateUrl: './contactus.component.html',
+ styleUrls: ['./contactus.component.css']
+})
+export class ContactusComponent {
+}
+
+
+about.component.html:
+
+
+<section id="about" class="section">
+    <div class="container">
+    <h2>About Me</h2>
+    <div class="about-content">
+    <div class="about-text">
+    <p>Hello! I'm David Joe , a passionate web developer with a focus on frontend development.</p>
+    <p>I have a strong foundation in HTML, CSS, and JavaScript and enjoy creating responsive and user-friendly web experiences.</p>
+    <p>With several years of experience, I have worked on various projects and love  solving problems and learning new technologies.</p>
+    <p>My Hobbies are football, outdoor and indoor games, playing piano, or cooking food.</p>
+    <p>If you have any inquiries or would like to discuss a potential project, feel free to get in touch with me!</p>
+    <a href="contact" class="btn">Contact Me</a>
+    </div>
+    </div>
+    </div>
+    </section>
+
+
+about.component.ts:
+
+import { Component } from '@angular/core';
+@Component({
+ selector: 'app-about-us',
+ templateUrl: './about-us.component.html',
+ styleUrls: ['./about-us.component.css']
+})
+export class AboutUsComponent {
+}
+
