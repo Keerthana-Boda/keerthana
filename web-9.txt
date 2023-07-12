@@ -1,0 +1,92 @@
+			Components..
+DESCRIPTION
+This section will guide you to:
+● Create Angular components
+
+
+Step 3.1.1: Creating a new project
+.
+●	Angular has been installed in your practice labs using npm 
+●	To verify the installation:
+○	Open the command-line interface
+○	Type in the command:
+
+ng --version
+
+
+●	Create a new project  using the command:
+ng new angular-app
+
+●	Move the code to the application folder and start the server.
+cd angular-app
+ng serve
+
+Step 3.1.2: Creating Angular components
+
+●	Open Visual Studio Code
+●	Navigate to the created angular-app project folder.
+
+app.module.ts
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppComponent } from './app.component';
+@NgModule({
+  declarations: [
+    AppComponent,
+   
+  ],
+  imports: [
+    BrowserModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+app.component.ts
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: '<product-list></product-list>',
+  //template:'<p> Blah Blah </p>',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'angular-app';
+
+}
+
+●	Create a folder called products inside the src/app folder.
+●	Create a product-list.component.html file in the products folder.
+●	Add the following code to product-list.component.html.
+	<h1> Product List Page </h1>
+●	Create a file called  product-list.component.ts.
+
+
+product-list.component.html
+
+<html>
+  <h1>Welcome to ECommerce</h1>
+  <h3>Product List Page</h3>
+</html>
+
+product-list.component.ts
+
+import { Component } from '@angular/core';
+
+
+@Component({
+  selector: 'product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
+})
+export class AppComponent {
+  pageTitle: string = "Product List Page";
+}
+
+ 

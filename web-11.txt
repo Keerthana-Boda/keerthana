@@ -1,0 +1,60 @@
+					Class and Style Bindings..
+DESCRIPTION
+This section will guide you to:
+Implement attribute, class, and style binding
+This guide has four subsections, namely:
+
+Step 5.3.1: Disabling a button using attribute binding
+
+●	Disable a button using disabled attribute of the element. Set the disabled to false by binding value to attr.disabled attribute property.
+●	Open Visual Studio Code
+●	Add the following code to  Product-list.component.html.
+
+  <button [attr.disabled]=”true” class="btn btn-primary" (click)='toggleImage()'>
+      Show Image
+  </button>
+
+
+Step 5.3.2: Implementing class binding
+
+●	Create an external CSS file product-list.component.css inside products folder.
+●	Create a CSS class name price.
+
+.inStock{
+   background: #096d09;
+   color:#ffff;
+   Font-size:15px;
+}
+
+●	Apply the CSS class in Product-list.component.html file and set its value to true.
+
+ <td [class.inStock]="true">
+    {{ product.price}}
+ </td>
+
+●	Set class value to false in Product-list.component.html.
+
+Step 5.3.3: Implementing style binding
+
+●	Bind a color and font-weight style to the product element in Product-list.component.html file.
+
+
+  <td [style.color]="'#306A9D'" [style.font-weight]="700">
+      {{ product.productName }}
+  </td> 
+
+●	You can also apply conditional CSS using style binding.
+
+  
+ <td [style.color]="product.price > 20 ? 'red': 'green'"          
+ [style.font-size.px]="16"  [style.font-weight]="700">
+       {{ product.price}}
+ </td>
+
+
+
+
+
+
+
+
