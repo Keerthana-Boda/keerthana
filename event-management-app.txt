@@ -1,0 +1,328 @@
+					Event Management App.
+Course-end Project 2
+DESCRIPTION
+Build an Angular app where the admin can view and manage employees.
+
+
+home.component.html
+
+<div class="paragraph">
+<p>home works!</p>
+</div>
+
+home.component.css
+
+.paragraph{
+    background-color: whitesmoke;
+    height:250px;
+}
+
+employees.component.html
+
+<table class="table">
+    <thead>
+        <tr>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Employees</button>
+        </tr>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let row of employeeData">
+            <td>{{row.id}}</td>
+            <td>{{row.firstName}}</td>
+            <td>{{row.lastName}}</td>
+            <td>{{row.email}}</td>
+            <td>
+                <button (click)="onView(row)" type = "button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">View Employees</button>
+            </td>
+        </tr>
+    </tbody>
+</table>  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Employee Details</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formValue">               
+                <div class="form-group">
+                  <label for="exampleInputPassword1">First Name</label>
+                  <input type="text" formcontrolName="firstName" class="form-control" id="exampleInputFirstName" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Last Name</label>
+                    <input type="text"  formcontrolName="lastName" class="form-control" id="exampleInputLastName">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email"  formcontrolName="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+                  </div>               
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id = "cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" (click)="postEmployeeDetails()" class="btn btn-primary">Add</button>
+          <button type="button" (click)="updateEmployeeDetails()" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+employees.component.ts
+
+import { Component,OnInit } from '@angular/core';
+import { FormBuilder,FormGroup } from '@angular/forms';
+import { ApiService } from '../shared/api.service';
+import { EmployeeModel } from './employees.model'
+
+@Component({
+  selector: 'app-employees',
+  templateUrl: './employees.component.html',
+  styleUrls: ['./employees.component.css']
+})
+export class EmployeesComponent implements OnInit{
+
+  formValue !: FormGroup;
+  employeeModelObj : EmployeeModel = new EmployeeModel();
+  employeeData !: any;
+
+  constructor(private formbuilber: FormBuilder,
+    private api : ApiService) { }
+
+  ngOnInit(): void{
+    this.formValue = this.formbuilber.group({
+      firstName :[''],
+      lastName : [''],
+      email : [''],
+    })
+    this.getAllEmployee();
+  }
+
+  postEmployeeDetails(){
+    this.employeeModelObj.firstName = this.formValue.value.firstName;
+    this.employeeModelObj.lastName = this.formValue.value.lastName;
+    this.employeeModelObj.email = this.formValue.value.email;
+
+    this.api.postEmployee(this.employeeModelObj).subscribe(res=>{
+      console.log(res);
+      alert("Employee Added Successfully")
+      let ref = document.getElementById('cancel')
+      ref?.click();
+      this.formValue.reset();
+      this.getAllEmployee();
+    },
+    err=>{
+      alert("Something went wrong")
+    }) 
+    
+  }
+
+  getAllEmployee(){
+    this.api.getEmployee()
+    .subscribe(res=>{
+      this.employeeData = res;
+    })
+  }
+
+  deleteEmployee(row : any){
+    this.api.deleteEmployee(row.id)
+    .subscribe(res=>{
+      alert("Employee Deleted");
+      this.getAllEmployee();
+    })
+  }
+
+  onView(row:any){
+    this.formValue.controls['firstName'].setValue(row.firstName);
+    this.formValue.controls['lastName'].setValue(row.lasttName);
+    this.formValue.controls['email'].setValue(row.email);
+  }
+
+  updateEmployeeDetails(){
+    this.employeeModelObj.firstName = this.formValue.value.firstName;
+    this.employeeModelObj.lastName = this.formValue.value.lastName;
+    this.employeeModelObj.email = this.formValue.value.email;
+
+    this.api.updateEmployee(this.employeeModelObj,this.employeeModelObj.id).subscribe(res=>
+      {
+        alert("Updated Successfully");
+        let ref = document.getElementById('cancel')
+        ref?.click();
+        this.formValue.reset();
+        this.getAllEmployee();
+      })
+  }
+}
+
+
+employees.model.ts
+
+export class EmployeeModel{
+    id : number = 0;
+    firstName : string = '';
+    lastName : string = '';
+    email : string = '';
+}
+
+api.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ApiService {
+
+  constructor(private http : HttpClient) { }
+
+  postEmployee(data : any){
+    return this.http.post<any>("http://localhost:3000/posts",data)
+    .pipe(map((res:any)=>{
+      return res;
+    }
+    ))
+  }
+
+  getEmployee(){
+    return this.http.get<any>("http://localhost:3000/posts")
+    .pipe(map((res:any)=>{
+      return res;
+    }
+    ))
+  }
+
+  updateEmployee(data : any, id : number){
+    return this.http.put<any>("http://localhost:3000/posts/" + id ,data)
+    .pipe(map((res:any)=>{
+      return res;
+    }
+    ))
+  }
+
+  deleteEmployee(id : number){
+    return this.http.delete<any>("http://localhost:3000/posts/" + id)
+    .pipe(map((res:any)=>{
+      return res;
+    }
+    ))
+  }
+  
+}
+
+
+app.routing.module.ts
+
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { EmployeesComponent } from './employees/employees.component';
+import { AppComponent } from './app.component';
+
+const routes: Routes = [
+  { path: 'home', component: HomeComponent},
+  { path: 'employees', component: EmployeesComponent},
+  { path: 'portal', component: AppComponent}
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+
+
+app.component.html
+
+<div class="container">
+  <nav class="navbar navbar-expand-lg navbar-light ">
+    <div class="container-fluid">
+  <ul class="nav navbar-nav float-left" routerLinkActive="active"  style="color: lightblue">
+  <li class="nav-item"><a class="btn" routerLink="/homepage" style="margin:5px"><b>Portal</b></a></li>
+  <li class="nav-item"><a class=" btn" routerLink="/home" style="margin:5px;">Home</a></li>
+  <li class="nav-item"><a class="btn" routerLink="/employees" style="margin:5px">Employees</a> </li>
+</ul>
+<div class="search">
+  <form action="#">
+      <input type="text"
+             placeholder=" Search"
+             >
+      
+  </form>
+</div>
+</div>
+  </nav>
+  <div class="container">
+  <router-outlet></router-outlet>
+  </div>
+  </div>
+  
+app.component.css
+
+.container-fluid{
+    background-color: lightgrey;
+}
+.search input[type=text]{
+    width:200px;
+    height:25px;
+    border-radius:25px;
+    border: none;
+}
+     
+.search{
+    float:right;
+    margin:7px;
+}
+     
+.search button{
+  
+    float: right;
+    padding: 5px 10px;
+    margin-right: 16px;
+    font-size: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+app.module.ts
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
+import { EmployeesComponent } from './employees/employees.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    EmployeesComponent
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
