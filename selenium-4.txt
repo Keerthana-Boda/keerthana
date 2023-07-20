@@ -1,0 +1,244 @@
+				Handling Various Web Elements..
+DESCRIPTION
+This section will guide you to:
+● Handling Various Web Elements present on the page.
+
+Step 1.4.1: Edit box
+●	Open Eclipse
+●	It is a basic text control that enables a user to type a small amount of text.
+●	Operations on Edit box
+●	Enter a Value,
+●	Clear the Value,
+●	Check enabled status,
+●	Check edit box existence,
+●	Get the value 
+
+Step 1.4.2: Link
+●	link is more appropriately referred to as a hyperlink and connects one web page to another. It allows the user to click their way from page to page.
+●	Operations on Link
+●	Click Link,
+●	Check the link existence,
+●	Check the link enabled status,
+●	Return the Link Name
+
+Step 1.4.3: Button 
+●	This represents a clickable button, which can be used in forms and places in the document that needs a simple, standard button functionality.
+●	Operations on Button
+●	Click
+●	Check Enabled status 
+●	Display status
+
+Step 1.4.4: Image, image link, an image button
+●	It helps in performing actions on images like clicking on the image link or the image button, etc.
+●	Operations Image
+●	Three types of Image elements in Web Environment
+●	General Image (No functionality)
+●	Image Button (Submits)
+●	Image Link (Redirects to another page/location)
+
+Step 1.4.5: Text area
+●	It is an inline element used to designate a plain-text editing control containing multiple lines.
+●	Return / Capture Text Area or Error message from a web page
+
+Step 1.4.6: Checkbox
+●	This is a selection box or a tick box which is a small interactive box that can be toggled by the user to indicate an affirmative or a negative choice.
+●	Operations on Check box
+●	Check if the check box is displayed or not? 
+●	Check if the check box is enabled or not?
+●	Check if the check box is Selected or not?
+●	Select the Check box
+●	Unselect the Check box
+
+Step 1.4.7: Radio button
+●	It is an option button which is a graphical control element that allows the user to choose only one predefined set of mutually exclusive options.
+●	Operations on Radio Button
+●	Select Radio Button
+●	Verify if the Radio Button is Displayed or not?
+●	Verify if the Radio Button is enabled or not?
+●	Verify if the Radio Button is Selected or not?
+●	Example:
+oRadioButton.get(1).click();
+
+Step 1.4.8: Dropdown list
+●	It is a graphical control element, similar to the list box, which allows the user to choose one value from the list. When this drop-down list is inactive, it displays only a single value. 
+●	Operations on Drop down list
+●	Check the Dropdown box existence
+●	Check if the Drop down is enabled or not?
+●	Select an item
+●	Items Count
+●	Example:
+      Select fruits = new Select(driver.findElement(By.id("fruits")));
+      fruits.selectByVisibleText("Banana");
+      fruits.selectByIndex(1);
+
+Step 1.4.9: Web table /HTML table
+●	Operations on Web table /HTML Table
+●	Get cell value
+●	Rows Count
+●	Cells Count 
+
+Step 1.4.10: Frame
+●	Operations on Frame
+●	Switch from Top window to a frame
+●	Switch from a frame to Top window
+●	Example
+●	driver.switchTo().frame("iframe1");
+●	driver.switchTo().frame("id of the element");
+
+Step 1.4.11: Switching between tabs in same browser window
+●	Operations on Switching between tabs in same browser window
+●	Open a new tab using Ctrl + t
+●	 Driver control automatically switches to the newly opened tab
+●	Perform the required operations here.
+●	Next switch back to the old tab using Ctrl + Tab. You need to keep pressing this unless you reach the desired tab.
+●	Once the desired tab is reached, then perform the operations in that tab.
+●	Example: 
+	driver.switchTo().window(tabs2.get(1));
+	driver.switchTo().window(tabs2.get(0));
+
+
+Step 1.4.12: Pushing the code to your GitHub repositories
+●	Open your command prompt and navigate to the folder where you have created your files.
+cd <folder path>
+●	Initialize your repository using the following command:
+git init
+●	Add all the files to your git repository using the following command:
+git add .
+●	Commit the changes using the following command:
+git commit .  -m “Changes have been committed.”
+●	Push the files to the folder you initially created using the following command:
+git push -u origin master
+
+
+package com.ecommerce.test;
+
+import java.util.List;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.Select;
+public class LocatingElementsDemo 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{		
+		WebDriver driver = new ChromeDriver(); // new FirefoxDriver();		
+		//	Demo locating by id, name and class
+		// googleAccCreation(driver);
+		// Demo cssSelector
+		facebookAccCreation(driver);
+		//close the browser and quit.
+		//driver.close();
+	}
+	static void facebookAccCreation(WebDriver driver) 
+	{
+		String baseUrl = "https://www.facebook.com/r.php?locale=en_GB&display=page";
+		driver.get(baseUrl);
+		String cssDay = "#day";
+		WebElement cssDaySelect = driver.findElement(By.cssSelector(cssDay));	
+		Select daySelect =  new Select(cssDaySelect);
+		daySelect.selectByVisibleText("11");
+		// PROBLEM : locate the gender element and try setting it F/M/C
+//		String cssGender = "#u_0_4_nJ";
+//		WebElement cssGenderRadio = driver.findElement(By.cssSelector(cssGender));
+//		cssGenderRadio.click();
+		WebElement cssGenderRadio = driver.findElement(By.cssSelector("span > span > input[type='radio'][value='2']" ));
+		cssGenderRadio.click();
+		// Demo find by tag name
+		List<WebElement> titleTagElement = driver.findElements(By.tagName("title"));
+		JavascriptExecutor js = (JavascriptExecutor) driver; 
+		js.executeScript("console.log(arguments[0].innerText)", titleTagElement);		
+		System.out.println("WebPage Title is "+titleTagElement.get(0).getText());
+	}
+	static void googleAccCreation(WebDriver driver) 
+	{
+		String baseUrl = "https://accounts.google.com/signup/v2?biz=true&flowEntry=SignUp";
+		driver.get(baseUrl);
+		// Let's locate the first name text field by its id.
+		WebElement firstNameTF = driver.findElement(By.id("firstName"));				
+		firstNameTF.sendKeys("Myname");				
+		// Let's locate the surname name text field by its name.
+		WebElement surNameTF = driver.findElement(By.name("lastName"));
+		surNameTF.sendKeys("latName");				
+		// The Next button using its class
+		WebElement nextButton = driver.findElement(By.className("VfPpkd-vQzf8d"));
+		System.out.println("Text on the button is "+nextButton.getText());
+		nextButton.click();				
+//		String dayXPath ="/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div[1]/div/div/div[1]/div/div[1]/input";
+//		WebElement dayTF = driver.findElement(By.xpath(dayXPath));
+//		dayTF.sendKeys("10");			
+//		String dayRelativeXPath = "//*[@id=\"day\"]";
+//		WebElement dayTF1 = driver.findElement(By.xpath(dayRelativeXPath));
+//		dayTF1.sendKeys("10");		
+//		WebElement dayTF1 = driver.findElement(By.id("day"));
+//		System.out.println("dayTF1 "+dayTF1);
+//		dayTF1.clear();
+//		dayTF1.sendKeys("10");
+	}
+}
+
+text.html
+
+<html>
+<head>
+<title>Hello</title>
+<script>
+	function myDblClickFunction() {
+		document.getElementById("demo-messages").textContent = "You double clicked me!";
+		document.getElementById("demo-messages").style.color = "red";
+	}
+
+	function mySglClickFunction() {
+		document.getElementById("demo-messages").textContent = "You single clicked me!";
+		document.getElementById("demo-messages").style.color = "blue";
+	}
+</script>
+</head>
+<body bgcolor="#ffeeee">
+	DEMO-MESSAGES:
+	<span id="demo-messages">GETTING STARTED</span>
+	<br><br><span id="xyz">Hello world!</span>
+	Alerts The simplest of these is referred to as an alert, which shows a
+	custom message, and a single button which dismisses the alert, labelled
+	in most browsers as OK. It can also be dismissed in most browsers by
+	pressing the close button, but this will always do the same thing as
+	the OK button.
+	<a href="javascript:alert('hello alerts!')">See an example alert</a>
+	<br>
+	<br>
+	<div id="modal">
+		<iframe id="myframe" name="myframe"
+			src="https://seleniumhq.github.io" width=1200 height=400>
+		</iframe>
+	</div>
+	<br>
+	<br>
+	<button id="dblButton" ondblclick="myDblClickFunction()"
+		onclick="mySglClickFunction()">Double-click me or Single click me</button>
+	<h3>0 Some h3 text</h3>
+	<form>
+		<input type="text" id="admin"> <br> <input type="text"
+			id="admin123"> <br> <input type="text" id="adminxyz">
+		<br> <input type="text" id="adm"> <br>
+		<input type="file" id="uploadPicture">
+	</form>
+	<h3>1 Some h3 text</h3>
+	<h3>2 Some h3 text</h3>
+	<h3>3 Some h3 text</h3>
+	<select multiple aria-label="Month" name="birthday_month" id="month"
+		title="Month" class="_9407 _5dba _9hk6 _8esg">
+		<option value="1">Jan</option>
+		<option value="2">Feb</option>
+		<option value="3">Mar</option>
+		<option value="4">Apr</option>
+		<option value="5">May</option>
+		<option value="6">Jun</option>
+		<option value="7" selected="1">Jul</option>
+		<option value="8">Aug</option>
+		<option value="9">Sep</option>
+		<option value="10">Oct</option>
+		<option value="11">Nov</option>
+		<option value="12">Dec</option>
+		</select>
+</body>
+</html>

@@ -1,0 +1,223 @@
+			Working with External Elements..
+DESCRIPTION
+This section will guide you to:
+● How to handle External elements using Selenium.
+
+Step 1.5.1: Handling External pop ups.
+●	WebDriver does ability to interact with multiple windows,which includes alerts using the method switchTo. This method allows to switch the control to pop-up while keeping the browser open in the back ground.
+●	Open Eclipse
+●	Syntax for handling the various pop ups
+●	To click on ‘OK’ button in pop up
+Syntax: WebDrive driver = new chromeDriver();
+driver.switchTo().alert().accept();
+●	To click on ‘Cancel’ button in pop up   
+Syntax: WebDrive driver = new chromeDriver();
+driver.switchTo().alert().dismiss();
+●	To Capure the alert message
+Syntax: WebDrive driver = new chromeDriver()
+driver.switchTo().alert().getText();
+●	To enter the information
+Syntax: WebDrive driver = new chromeDriver()
+driver.switchTo().alert().sendKeys(“text”);
+●	To exit from the popup
+Syntax: WebDrive driver = new chromeDriver();
+driver.switchTo().alert().close();
+
+Step 1.5.2: Handling new Tabs and new Window.
+●	Opening new tab
+Syntax: WebDrive driver = new chromeDriver();
+		  driver.findElement(By.id(“xyz”)).sendKeys(Keys.CONTROL + “t”);
+●	Opening new Window
+Syntax: WebDriver driver = new chromeDriver();
+driver.findElements(By.id(“xyz”).sendKeys(Keys.CONTROL + “w”);
+
+
+Step 1.5.3: Pushing the code to your GitHub repositories
+●	Open your command prompt and navigate to the folder where you have created your files.
+cd <folder path>
+●	Initialize your repository using the following command:
+git init
+●	Add all the files to your git repository using the following command:
+git add .
+●	Commit the changes using the following command:
+git commit .  -m “Changes have been committed.”
+●	Push the files to the folder you initially created using the following command:
+git push -u origin master
+
+package com.ecommerce.test;
+import java.time.Duration;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
+public class AdvancedLocateElementsDemo 
+{
+	public static void main(String[] args) throws InterruptedException 
+	{
+		WebDriver driver = new ChromeDriver(); // new FirefoxDriver();
+	// demoXPathCSSSelector(driver);
+	// demoElementActionForSelect(driver);
+	// demoElementActionForTable(driver);
+	//demoAlert(driver);
+		demoIFrameActions(driver);
+	// close the browser and quit.
+	// driver.close();
+	}
+/* IFrame actions demo */
+	static void demoIFrameActions(WebDriver driver) throws InterruptedException 
+	{
+		String baseUrl = "File:///F:\\Users\\HomeWk\\git\\sl\\PHASE5\\morning\\hello-selenium\\src\\main\\resources\\test.html";
+		driver.get(baseUrl);
+		driver.switchTo().frame("myframe");
+	// Now we can click the button
+		driver.findElement(By.cssSelector(".DocSearch-Button-Placeholder")).click();
+		driver.findElement(By.cssSelector("#docsearch-input")).sendKeys("hello");
+		driver.switchTo().defaultContent();
+	}
+/* Alert actions demo */
+	static void demoAlert(WebDriver driver) throws InterruptedException 
+	{
+		String baseUrl = "File:///F:\\Users\\HomeWk\\git\\sl\\PHASE5\\morning\\hello-selenium\\src\\main\\resources\\test.html";
+		driver.get(baseUrl);
+	// driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+		Thread.sleep(10000);
+	// Click the link to activate the alert
+		driver.findElement(By.linkText("See an example alert")).click();
+		Thread.sleep(10000);
+	// alert will appear now, may be in 10 secs
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+	// Wait for the alert to be displayed and store it in a variable
+		wait.until(ExpectedConditions.alertIsPresent());
+	// Store the alert in a variable
+		Alert alert = driver.switchTo().alert();
+	// Store the alert in a variable for reuse
+		String text = alert.getText();
+		System.out.println(text);
+	// Press the Cancel button
+		alert.accept();
+	}
+/* Table demo */
+	static void demoElementActionForTable(WebDriver driver) throws InterruptedException 
+	{
+		String baseUrl = "https://www.nyse.com/ipo-center/recent-ipo";
+		driver.get(baseUrl);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		String tableXPath = "/html/body/div[1]/div[4]/div[2]/div[3]/div[1]/div[4]/table";
+		String tableRowXPath = "/html/body/div[1]/div[4]/div[2]/div[3]/div[1]/div[4]/table/tbody/tr";
+	// Row count
+		List<WebElement> selectIPOTableRows = driver.findElements(By.xpath(tableRowXPath));
+		System.out.println("No of rows : " + selectIPOTableRows.size());
+		String tableHeadColsXPath = "/html/body/div[1]/div[4]/div[2]/div[3]/div[1]/div[4]/table/thead/tr/th";
+	// Finding number of Columns
+		List<WebElement> columnsNumber = driver.findElements(By.xpath(tableHeadColsXPath));
+		int columnCount = columnsNumber.size();
+		System.out.println("No of columns in this table : " + columnCount);
+	// Finding cell value at 4th row and 3rd column
+		WebElement cellAddress = driver.findElement(By.xpath(tableXPath + "/tbody/tr[4]/td[3]"));
+		String value = cellAddress.getText();
+		System.out.println("The Cell Value is : " + value);
+	// JS Executor
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		String elementTextChangeScript = "var e = document.querySelector(\"body > div:nth-child(1) > div:nth-child(4) > div:nth-child(2) > div:nth-child(3) > div:nth-child(1) > div:nth-child(9) > table > tbody > tr:nth-child(3) > td:nth-child(3) > strong\"); e.textContent=\"Bharat Gas\";";
+		js.executeScript(elementTextChangeScript);
+	}
+/* Select/Multi-select actions demo */
+	static void demoElementActionForSelect(WebDriver driver) 
+	{
+		String baseUrl = "File:///F:\\Users\\HomeWk\\git\\sl\\PHASE5\\morning\\hello-selenium\\src\\main\\resources\\test.html";
+		driver.get(baseUrl);
+		WebElement selectMonthElement = driver.findElement(By.id("month"));
+		Select selectMonth = new Select(selectMonthElement);
+		System.out.println("selectMonth is muti select " + selectMonth.isMultiple());
+		selectMonth.selectByIndex(0);
+		selectMonth.selectByIndex(6);
+		List<WebElement> optionsList = selectMonth.getAllSelectedOptions();
+		for (WebElement option : optionsList)
+			System.out.println("selectMonth selected options are " + option.getText());
+	}
+	static void demoXPathCSSSelector(WebDriver driver) 
+	{
+		String baseUrl = "File:///F:\\Users\\HomeWk\\git\\sl\\PHASE5\\morning\\hello-selenium\\src\\main\\resources\\test.html";
+		driver.get(baseUrl)
+		List<WebElement> inputAdminElements = driver.findElements(By.xpath("//input[contains(@id, 'admin')]"));
+		System.out.println("inputAdminElements has " + inputAdminElements.size());
+	// same as above but by using CSS selectors
+		List<WebElement> inputAdminElementsUsingCSSSelector = driver.findElements(By.cssSelector("input[id*='admin']"));
+		System.out.println("inputAdminElementsUsingCSSSelector has " + inputAdminElementsUsingCSSSelector.size());
+		WebElement secondH3SiblingOfForm = driver.findElement(By.cssSelector("h3:nth-child(2)"));
+		System.out.println("secondH3SiblingOfForm text is " + secondH3SiblingOfForm);
+	}
+}
+
+text.html
+
+<html>
+<head>
+<title>Hello</title>
+<script>
+	function myDblClickFunction() {
+		document.getElementById("demo-messages").textContent = "You double clicked me!";
+		document.getElementById("demo-messages").style.color = "red";
+	}
+
+	function mySglClickFunction() {
+		document.getElementById("demo-messages").textContent = "You single clicked me!";
+		document.getElementById("demo-messages").style.color = "blue";
+	}
+</script>
+</head>
+<body bgcolor="#ffeeee">
+	DEMO-MESSAGES:
+	<span id="demo-messages">GETTING STARTED</span>
+	<br><br><span id="xyz">Hello world!</span>
+	Alerts The simplest of these is referred to as an alert, which shows a
+	custom message, and a single button which dismisses the alert, labelled
+	in most browsers as OK. It can also be dismissed in most browsers by
+	pressing the close button, but this will always do the same thing as
+	the OK button.
+	<a href="javascript:alert('hello alerts!')">See an example alert</a>
+	<br>
+	<br>
+	<div id="modal">
+		<iframe id="myframe" name="myframe"
+			src="https://seleniumhq.github.io" width=1200 height=400>
+		</iframe>
+	</div>
+	<br>
+	<br>
+	<button id="dblButton" ondblclick="myDblClickFunction()"
+		onclick="mySglClickFunction()">Double-click me or Single click me</button>
+	<h3>0 Some h3 text</h3>
+	<form>
+		<input type="text" id="admin"> <br> <input type="text"
+			id="admin123"> <br> <input type="text" id="adminxyz">
+		<br> <input type="text" id="adm"> <br>
+		<input type="file" id="uploadPicture">
+	</form>
+	<h3>1 Some h3 text</h3>
+	<h3>2 Some h3 text</h3>
+	<h3>3 Some h3 text</h3>
+	<select multiple aria-label="Month" name="birthday_month" id="month"
+		title="Month" class="_9407 _5dba _9hk6 _8esg">
+		<option value="1">Jan</option>
+		<option value="2">Feb</option>
+		<option value="3">Mar</option>
+		<option value="4">Apr</option>
+		<option value="5">May</option>
+		<option value="6">Jun</option>
+		<option value="7" selected="1">Jul</option>
+		<option value="8">Aug</option>
+		<option value="9">Sep</option>
+		<option value="10">Oct</option>
+		<option value="11">Nov</option>
+		<option value="12">Dec</option>
+		</select>
+</body>
+</html>
