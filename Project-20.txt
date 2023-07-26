@@ -1,0 +1,67 @@
+					Deploy Application on Cloud..
+DESCRIPTION
+Project objective: 
+As a developer, deploy your Spring Boot application on Cloud.
+
+Background of the problem statement: 
+You have been assigned a new task during the sprint planning. You have been asked to deploy your Spring Boot application on the Cloud. You need to create and launch an instance, provide all the required privileges, and run your application. 
+
+Create an EC2 Instance:
+1.Navigate to the EC2 portion of the console.
+2.Ensure that you are operating out of theUS East (Ohio)Region.
+3.Create a keypair (named EC2InstanceKeyPairXXX), choose “pem”file and download it to your machine.
+4.Click Launch Instances
+5.Go through the configuration steps.
+6.Launch an EC2 Instance with following configuration:
+	a.Enter the Name: WebServer
+	b.Choose an Amazon Machine Image (AMI): Amazon Linux 2 AMI (HVM)
+	c.Choose an Instance Type: t2.microd
+	d.Select Key Pair: EC2InstanceKeyPairXXXe
+	e.Network: Select the Default VPC & Subnetf
+	f.Auto-assign Public IP: Enableg
+	g.Select your Createsecurity group:
+			▪Add Security Group Rule
+				•Select Type: Custom Type
+				•Port Range: 8080
+				•Source Type: Anywhere 
+			▪Add one more Rule:
+				•Select Type: SSH
+				•Port Range: 22
+				•Source Type: Anywhere 
+	h.ConfigureStorage: 30GB.
+7.Launch the instance.
+
+
+Connect to EC2 Instance:
+1.Go back to your instances.
+2.Click on Connect button.
+3.Use SSH Clienttab.
+4.Copy the ssh command.
+5.Open the gitbash command and navigate to pem file location.
+6.Connect using the SSH command.
+7.8.Update the system withsudo yum update -y
+9.Install java 8: sudo yum install java-1.8.0 -y
+10.Create the working directory: sudo mkdir /opt/spring-boot-ec2-demo
+11.cd /opt/spring-boot-ec2-demo
+12.Download the artifact from Github
+13.sudo wget <PASTE-RAW-LINK>
+14.sudojava -jar<file-name.jar>
+
+Steps to connect to EC2 and Deploy Spring project
+Pushing the JAR file to Github:
+•Upload the JAR file to GitHub.
+•If your jar file size is greater than 25MB, use git push command.
+•Copy the link by right clicking the RAW button
+
+
+Access your service using browser:
+1.http://<ec2-instance-public-ip>:8080/<your-uri>
+
+
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
+@RestController
+class Controller {
+    @GetMapping("/")
+    fun getHello() = "This is webpage Hello You have deployed your Spring Boot app on EC2 successfully!!"
+}
