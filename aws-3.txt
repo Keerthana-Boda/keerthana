@@ -1,0 +1,38 @@
+		Configure Storage by Using EBS [Guided]
+
+AWS EC2
+- Create an EBS volume
+- Modified the EBS volume type and size
+- Attached the volume to an EBS instance
+
+1.Create an EBS volume
+
+Create an 8 GiB General Purpose SSD (gp2) Elastic Block Store (EBS) volume, and then configure a tag by using a key of Name and a value of Volume-32807137.
+In the AWS Management Console, select Services, in AWS Services, expand All services, and then select EC2.
+In the Navigation pane, in Elastic Block Store, select Volumes.
+Select Create Volume.
+In Volume Type, ensure that General Purpose SSD (gp2) is selected.
+In Size, enter 8 GiB.
+Select Add Tag.
+In Key, enter Name, and then in Value, enter Volume-32807137.
+Review the remaining default values, and then select Create Volume.
+EBS volumes can use either the solid state drive (SSD) or hard disk drive (HDD) volume type. SSD has a higher cost and is ideal for applications that require better performance. HDD has a lower cost and is ideal for long-term storage.
+
+You may need to refresh the page to verify that the volume has been created successfully.
+
+2.Modify an EBS volume
+
+Change the volume type to Throughput Optimized HDD and the size to 500 GiB.
+Select the Volume-32807137 volume, select Actions, and then select Modify Volume.
+In Volume Type, select Throughput Optimized HDD (st1).
+In Size, enter 500 GiB, and then select Modify.
+In the Modify Volume dialog box, select Modify.
+
+3.Attach the EBS volume to an EC2 instance
+
+Attach the new volume to the running WebServer EC2 instance.
+Select the new volume, select Actions, and then select Attach Volume.
+Select Search instance ID or Name tag, and then select the running WebServer instance.
+Select Attach Volume.
+EC2 workloads are backed by EBS. You can use an EBS volume as the base drive for a EC2 workload or as an additional data drive.
+After you attach the volume to a running instance, the state changes to in-use. You may need to refresh the page to see the change in state.

@@ -1,0 +1,72 @@
+					Implement Identity and Access Management [Guided]
+
+Create an Amazon S3 bucket.
+Create a user.
+Create a policy that provides full control of the S3 bucket.
+Create a group.
+Add a user to a group.
+
+Create an Amazon S3 bucket
+
+Create a new Amazon Simple Storage Service (Amazon S3) bucket named bucket-32806993 by using the default settings.
+On the command bar, in Search for services…, search for and select S3.
+Select Create bucket.
+In Bucket name, enter bucket-32806993, and then select Create bucket.
+
+Create a new IAM user
+
+Create a new IAM user by using the values in the following table. For any property that is not specified, use the default value
+
+Property	:Value
+User name	:webadmin-32806993
+Access type	:Provide user access to the AWS Management Console
+Console password	:Custom password
+Custom password	:password
+Users must create a new password at next sign-in	:Cleared
+Set permissions boundary	:Use a permissions boundary to control the maximum permissions
+Permissions boundary - Policy name	:LabSecureAccess
+
+In the upper-left corner, select AWS to return to the AWS Management Console.
+On the command bar, in Search for services…, search for and select IAM.
+In the navigation pane, in Identity and Access Management, select Users, and then select Add users.
+In User name, enter webadmin-32806993, and then in Access type, select Provide user access to the AWS Management Console.
+Select Custom password, and then enter password
+Clear the Users must create a new password at next sign-in check box, and then select Next.Password.jpg
+Expand Set permissions boundary, and then select Use a permissions boundary to control the maximum permissions.
+In Permissions policies filter, enter LabSecureAccess, and then select the LabSecureAccess radio button.Permission Policy.jpg
+Select Next.
+Review the configuration, select Create user, and then select Close.
+
+
+Create a policy
+
+Create an IAM policy named s3webadminpolicy-32806993 that allows full control of the bucket-32806993 bucket.
+In the navigation pane, in Identity and Access management, select Policies, and then select Create policy.
+In Specify permissions, select Select a service, and then select S3.
+Select All S3 actions, expand Resources, and then in bucket, select Add ARN.The Add ARN option
+In Resource bucket name, enter bucket-32806993, and then select Add ARNs.specifyarns.jpg
+Select Next.
+On the Review policy page, in Policy name, enter s3webadminpolicy-32806993, and then select Create policy.
+
+Create a user group to allow access to the S3 bucket
+
+Create a new user group named s3webadmins-32806993 without any users, and then apply the s3webadminpolicy-32806993 IAM policy to the group.
+In the navigation pane, select User groups, and then select Create group.
+In User group name, enter s3webadmins-32806993.
+In the Attach permissions policy filter, enter s3webadminpolicy, and then select the s3webadminpolicy-32806993 check box.The Policy type
+Review the configuration, and then select Create group.
+
+Add the webadmin-32806993 user to the s3webadmins-32806993 group
+
+Select s3webadmins-32806993, and then on the Users tab, select Add users.
+Select the webadmin-32806993 user, and then select Add users.
+
+You have created a group that has permission to manage a single bucket. You have added a single user to the group, but you could add more users as necessary for management purposes. These users can add and remove content to the bucket for your website's static assets.
+
+Summary
+
+Created an Amazon S3 bucket.
+Created a user.
+Created a policy that provides full control of the S3 bucket.
+Created a group.
+Added a user to a group.

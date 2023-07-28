@@ -1,0 +1,92 @@
+		Connect to an EC2 Instance by Using RDP 
+
+Create a pem key pair
+Create a security group
+Create an EC2 instance
+Connect to an EC2 instance by using RDP
+
+1.Create a pem key pair
+
+In the AWS Management Console, on the navigation bar, ensure that the selected region is Ohio.
+If US East (Ohio) is not selected as the region, you will not see the appropriate VPCs in the steps that follow.
+Create an EC2 key pair named WindowsServerKeyPair by using the pem format.
+The .pem file will be automatically downloaded to your device. Please make sure that you know the location of automatic downloads on your device. You will need this file for an upcoming task in this challenge.
+In the AWS Management Console, select Services, expand All services, and then in Compute, select EC2.
+In the navigation pane, in Network & Security, select Key Pairs.
+Select Create key pair.
+In Name, enter WindowsServerKeyPair, in File format, select pem, and then select Create key pair.
+Save WindowsServerKeyPair to your desktop.
+To connect to EC2 instances, you use access keys and secret keys known as key pairs. You use a key pair to decrypt the automatically generated Windows password when you connect to a Windows instance by using RDP.
+You can also create a key pair when you configure an EC2 instance.
+
+2.Create a security group
+
+Create a security group named RDPSG-32807326 by using the Challenge VPC and the description Allows RDP, and then configure an Inbound rule that will allow RDP traffic from Anywhere-IPv4.
+In the navigation pane, in Network & Security, select Security Groups.
+Select Create security group.
+In Security group name, enter RDPSG-32807326, in Description, enter Allows RDP, and then in VPC, ensure that Challenge VPC is selected.
+In Inbound rules, select Add rule.
+In the Type drop-down list, select RDP, and then in the Source type drop-down list, select Anywhere-IPv4.
+Select Create security group.
+The Create security group button
+Normally you would lock down RDP to a specific IP address or CIDR range for security, but for this challenge, leave it set to Anywhere.
+You can also create a security group when you configure an EC2 instance.
+
+In the RDPSG-32807326 security group, create a tag by using a key of Name and a value of RDPSG.
+In the RDPSG-32807326 security group, in the details pane, select Tags.
+Select Manage tags, and then select Add new tag.
+In Key, enter Name, in Value, enter RDPSG, and then select Save changes
+The key and value are case sensitive.
+
+3.Create an EC2 instance
+
+Create and launch an EC2 instance by using the values in the following table. For any property that is not listed, use the default value.
+
+Property	:Value
+AMI	:Microsoft Windows Server 2019 Base
+Instance Type	:t2.micro
+Network	:Challenge VPC
+Subnet	:us-east-2a
+Key	:Name
+Value	:WinServer1
+Security group	:RDGSG-32807326
+Key pair	:WindowsServerKeyPair
+
+In the navigation pane, in Instances, select Instances.
+Select Launch instances to start the Amazon EC2 Launch Instance Wizard.
+In Application and OS Images (Amazon Machine Image), select Microsoft Windows Server 2019 Base.
+In Instance type, ensure that t2.micro is selected
+In Network settings, select Edit, and then ensure that Challenge VPC is selected.
+In Subnet, ensure that Public 1 | us-east-2a is selected
+Back at the top of the page, in Name and tags, select Add additional tags, and then in Name, enter Name, and then in Value, enter WinServer1.
+In Network settings, in Firewall (security groups), select Select existing security group, and then select RDPSG-32807326.
+In Key pair (login), in Key pair name - required, ensure that WindowsServerKeyPair is selected.
+Review the instance configuration settings, and then select Launch Instances.
+Verify that the instance is running, and then verify that 2/2 checks passed
+
+On the Launch Status page, in the lower-right corner, select View all Instances.
+Periodically refresh the Instances page until the Status Checks column shows 2/2 checks passed.
+You may need to refresh the page to verify the status of the instance.
+Wait for the status checks to finish before moving on to the next task. This will take approximately 2-3 minutes.
+You can use Amazon EC2 instances to run different types of workloads. Microsoft and Amazon have developed a series of AMIs that use different Windows Server configurations.
+
+4.Connect to an EC2 instance by using RDP
+
+Download the remote desktop file for the Winserver1 instance.
+On the Instances page, select the Winserver1 check box, and then select Connect.
+On the Connect to instance page, select RDP client.
+Select Download remote desktop file.
+Save the Winserver1 Remote Desktop Connection file to your desktop.
+If you see a Failed to describe instance information warning on the Connect to instance page, you can safely ignore the message.
+Retrieve and copy the password for the instance.
+Expand this hint for guidance on retrieving the password for the instance.
+On the Connect to instance page, select Get password.
+On the Get Windows password page, select Upload private key file, locate the WindowsServerKeyPair.pem file on your local computer, and then open the file.
+On the Get Windows password page, select Decrypt Password.
+The Get Windows password page
+Copy the password.
+Connect to the Winserver1 instance by using the Winserver1 RDP file.
+Expand this hint for guidance on connecting to an instance.
+Open the Winserver1 RDP file that you downloaded.
+When prompted, connect to the instance by using Remote Desktop Connection.
+When prompted for credentials, sign in as Administrator using the password that you copied.
