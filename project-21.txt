@@ -1,0 +1,46 @@
+			Setting Up Jenkins Pipeline to Deploy Docker Swarm..
+DESCRIPTION
+Project objective: 
+You have to develop an environment for Docker networking. 
+Background of the problem statement: 
+As you have worked on Docker containers previously, your manager has asked you to perform container scheduling over multiple hosts using Docker CLI and connect multiple hosts with Docker containers.
+
+1.  Installed Jenkins and Docker
+
+2.  Installed Jenkins on a  virtual machine.
+
+3.  Installed Docker on the same virtual machine any other nodes that will be part of the Docker Swarm.
+
+4.  Done the Set up of Docker Swarm.
+
+5.  Initialized Docker Swarm on the manager node using the Docker CLI.
+
+     => Added worker nodes to the Swarm using their IP addresses and Docker CLI.
+
+     => Configured Jenkins for Docker
+
+6.  Installed the required Jenkins plugins for Docker integration, like "Docker Pipeline."
+
+7.  Created a GitHub Repository
+
+     => Done the Set up a new GitHub repository to store the Docker and Jenkins configuration files.
+     => Created Docker and Composed the File.
+
+8.  Writen a Docker Compose file that defines the services, networks, and any other required configurations for the application.
+     => Configure Jenkins Pipeline.
+
+9.  Created a new pipeline project in Jenkins.
+
+10. Configured the pipeline to fetch the source code from the GitHub repository.
+     => Created a Jenkins file.
+
+11. Writen a Jenkinsfile that defines the stages and steps for the pipeline.
+
+12. The Jenkinsfile will include steps like building Docker images, running tests, and deploying to the Docker Swarm.
+
+13. Defined different stages in the Jenkinsfile to represent each step of the deployment process, such as "Build," "Test," and "Deploy."
+    Implement Jenkins Pipeline Script.
+
+14. Writen the pipeline script in the Jenkinsfile using Jenkins DSL and Docker CLI commands.
+
+15. The pipeline script will execute the necessary Docker commands to build and deploy the containers on the Docker Swarm.

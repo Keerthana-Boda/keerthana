@@ -1,0 +1,194 @@
+				Deploying ELK Stack on Docker Container..
+DESCRIPTION
+Project objective: 
+You have to deploy ELK Stack on a Docker container to implement continuous monitoring.
+Background of the problem statement:  
+Your manager has asked to create an elegant user interface for data analysis and data visualization as you have worked on ELK stack previously and have the idea of how it works. This will help the DevOps team to monitor and analyze the application behavior.
+
+Setting Up Jenkins Pipeline to Deploy Docker Swarm..
+1.  Installed Jenkins and Docker
+
+2.  Installed Jenkins on a  virtual machine.
+
+3.  Installed Docker on the same virtual machine any other nodes that will be part of the Docker Swarm.
+
+4.  Done the Set up of Docker Swarm.
+
+5.  Initialized Docker Swarm on the manager node using the Docker CLI.
+
+     => Added worker nodes to the Swarm using their IP addresses and Docker CLI.
+
+     => Configured Jenkins for Docker
+
+6.  Installed the required Jenkins plugins for Docker integration, like "Docker Pipeline."
+
+7.  Created a GitHub Repository
+
+     => Done the Set up a new GitHub repository to store the Docker and Jenkins configuration files.
+     => Created Docker and Composed the File.
+
+8.  Writen a Docker Compose file that defines the services, networks, and any other required configurations for the application.
+     => Configure Jenkins Pipeline.
+
+9.  Created a new pipeline project in Jenkins.
+
+10. Configured the pipeline to fetch the source code from the GitHub repository.
+     => Created a Jenkins file.
+
+11. Writen a Jenkinsfile that defines the stages and steps for the pipeline.
+
+12. The Jenkinsfile will include steps like building Docker images, running tests, and deploying to the Docker Swarm.
+
+13. Defined different stages in the Jenkinsfile to represent each step of the deployment process, such as "Build," "Test," and "Deploy."
+    Implement Jenkins Pipeline Script.
+
+14. Writen the pipeline script in the Jenkinsfile using Jenkins DSL and Docker CLI commands.
+
+15. The pipeline script will execute the necessary Docker commands to build and deploy the containers on the Docker Swarm.
+
+Source-code……
+
+
+Dockerfile
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+
+
+
+
+
+Jenkins.txt
+pipeline{
+    
+    agent any 
+    
+    tools {
+		// Install the Maven version configured as "M3" and add it to the path.
+		maven "maven1"
+		//jdk "java1"
+	}
+    
+    stages {
+        
+         stage('Checkout from GitHub') {
+            steps {
+                git branch: 'main', url: "https://github.com/awtraining1/sl.git"
+            }
+        }
+        
+         stage('Maven Build') {
+             				
+            steps {
+                dir('PHASE5/my/spring-bootdemo') {
+				bat "mvn -Dmaven.test.skip=true clean package"
+				}
+            }
+        }
+        
+        
+        stage('Docker Image Creation') {
+             				
+            steps {
+                dir('PHASE5/my/spring-bootdemo') {
+				bat "docker build -t my-morning-spring-app --output type=docker ."
+				}
+            }
+        }
+        
+        stage('Docker Hub Push') {
+             				
+            steps {
+				bat "docker tag my-morning-spring-app aw1app/my-morning-spring-app"
+			    bat "docker push aw1app/my-morning-spring-app"
+            }
+        }
+        }}
+SpringBootdemoApplication.java
+package com.example.demo;
+
+import java.util.Random;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+@SpringBootApplication
+public class SpringBootdemoApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootdemoApplication.class, args);
+	}
+
+}
+
+
+@Controller
+class IndexController{
+	
+	static String randomWebAppID= new String(new Random().toString());
+	
+	@GetMapping("/")
+	@ResponseBody
+	public String index() {
+		return "[WEBAPPID "+ randomWebAppID + "] Hello World from Spring";
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+Pom.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.1.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>spring-bootdemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>spring-bootdemo</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
