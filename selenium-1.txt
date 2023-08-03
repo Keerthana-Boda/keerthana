@@ -4,7 +4,7 @@ This section will guide you to:
 ● Integrate WebDriver in Eclipse.
 
 Step 1.1.1: Downloading Selenium Standalone Server jar
-●	Selenium is already installed in your practice lab. (Refer FSD: Lab Guide - Phase 5)
+●	Selenium is already installed in your practice lab. 
 
 Step 1.1.2: Launching eclipse and creating a Java project
 ●	Open Eclipse and create a Workspace.
